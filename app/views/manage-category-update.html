@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h5>修改类别</h5>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <label class="control-label">类别</label>
+      <input class="form-control" type="text" name="name" ng-model="newcategory.name"/>
+    </div>
+    <input type="hidden" ng-model="newcategory.id"/>
+    <input type="button" value="修改" ng-click="updateCategoryInfo()" class="btn btn-primary"/>
+  </div>
+</div>

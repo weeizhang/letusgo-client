@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h5>添加新商品</h5>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <label class="control-label">类别</label><span class="text-danger">{{tip}}</span>
+      <select class="form-control" ng-model="addproduct.category">
+        <option ng-repeat="category in categorys" value="{{category.name}}">{{category.name}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="control-label">名称</label>
+      <input class="form-control" type="text" name="name" ng-model="addproduct.name"/>
+    </div>
+    <div class="form-group">
+      <label class="control-label">单价</label>
+      <input class="form-control" type="text" name="name" ng-model="addproduct.price"/>
+    </div>
+    <div class="form-group">
+      <label class="control-label">单位</label>
+      <input class="form-control" type="text" name="name" ng-model="addproduct.unit"/>
+    </div>
+
+    <input type="button" value="添加" ng-click="addProductInfo()" class="btn btn-primary text-right"/>
+  </div>
+</div>

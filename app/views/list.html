@@ -1,0 +1,25 @@
+<div class="panel panel-default text-center">
+  <div class="panel-heading">
+    <h4>商品列表</h4>
+  </div>
+  <div class="panel-body">
+    <table id="goodlist-table" class="table table-responsive table-bordered">
+      <tr>
+        <th class="text-center">分类</th>
+        <th class="text-center">名称</th>
+        <th class="text-center">单价(元)</th>
+        <th class="text-center">单位</th>
+        <th class="text-center"></th>
+      </tr>
+
+      <tr ng-repeat="item in items">
+        <td>{{item.category}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.price}}</td>
+        <td>{{item.unit}}</td>
+        <td><input class="btn btn-primary btn-sm addcart" type="button" value="加入购物车" ng-click="addCartItem(item)"></td>
+      </tr>
+
+    </table>
+  </div>
+</div>

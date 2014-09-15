@@ -15,28 +15,63 @@
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
 </head>
-<body ng-app="letusgoApp">
+<body ng-app="letusgoApp" ng-controller="IndexController">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
   your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<div class="container">
-  <div class="header">
-    <ul class="nav nav-pills pull-right">
-      <li class="active"><a ng-href="#">Home</a></li>
-      <li><a ng-href="#/about">About</a></li>
-      <li><a ng-href="#">Contact</a></li>
-    </ul>
-    <h3 class="text-muted">client</h3>
+
+<div class="header">
+  <div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Let's Go</a>
+      </div>
+      <div class="collapse navbar-collapse" role="navigation">
+        <ul class="nav navbar-nav">
+          <li ng-class="{active:activeMainbar}">
+            <a href="#">主页</a>
+          </li>
+          <li ng-class="{active:activeListbar}">
+            <a href="#/list">商城</a>
+          </li>
+          <li class="dropdown" ng-class="{active:activeManagebar}">
+            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">管理 <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#/category">分类管理</a></li>
+              <li class="divider"></li>
+              <li><a href="#/product">商品管理</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li ng-class="{active:activeCartbar}">
+            <a href="#/cart"><span class="glyphicon glyphicon-shopping-cart"></span>购物车
+              (<span>{{amounts}}</span>)
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
+</div>
+<div class="container">
 
   <div ng-view=""></div>
 
-  <div class="footer">
-    <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-  </div>
+  <!--<div class="footer">-->
+  <!--<p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>-->
+  <!--</div>-->
 </div>
 
 <!-- build:js(.) scripts/oldieshim.js -->
@@ -65,8 +100,25 @@
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/app.js"></script>
+
+<script src="scripts/filters/paging.js"></script>
+
+<script src="scripts/services/item-service.js"></script>
+<script src="scripts/services/cart-service.js"></script>
+<script src="scripts/services/category-service.js"></script>
+<script src="scripts/services/product-service.js"></script>
+
+<script src="scripts/controllers/index.js"></script>
 <script src="scripts/controllers/main.js"></script>
-<script src="scripts/controllers/about.js"></script>
+<script src="scripts/controllers/inventory.js"></script>
+<script src="scripts/controllers/list.js"></script>
+<script src="scripts/controllers/cart.js"></script>
+<script src="scripts/controllers/category.js"></script>
+<script src="scripts/controllers/category-add.js"></script>
+<script src="scripts/controllers/category-update.js"></script>
+<script src="scripts/controllers/product.js"></script>
+<script src="scripts/controllers/product-add.js"></script>
+<script src="scripts/controllers/product-update.js"></script>
 <!-- endbuild -->
 </body>
 </html>
