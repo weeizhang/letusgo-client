@@ -48,12 +48,20 @@ describe('Controller: CategoryCtrl', function () {
   it('should remove category info into category list', function () {
     spyOn(categoryService, 'getAllCategoryInfo').and.returnValue(categoryList);
     categoryList.splice(2, 1);
-    spyOn(categoryService, 'removeCategoryInfo').and.returnValue(categoryList);
+    spyOn(categoryService, 'removeCategoryInfo').and.returnValue(true);
     createController();
     var item = {id: 3, name: '生活用品'};
     $scope.removeCategoryInfo(item);
     expect(categoryService.removeCategoryInfo).toHaveBeenCalledWith(item);
     expect($scope.categorys.length).toEqual(3);
+  });
+
+  it('should set tip when remove category info has goods', function () {
+    spyOn(categoryService, 'removeCategoryInfo').and.returnValue(false);
+    createController();
+    var item = {id: 3, name: '生活用品'};
+    $scope.removeCategoryInfo(item);
+    expect($scope.tip).toEqual('该类别下有商品，无法删除！');
   });
 
   it('should come into category add when click add category', function () {
