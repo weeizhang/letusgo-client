@@ -53,6 +53,7 @@ describe('Controller: IndexController', function () {
     expect($scope.activeMainbar).toBe(true);
     expect($scope.activeListbar).toBe(false);
     expect($scope.activeCartbar).toBe(false);
+    expect($scope.activeManagebar).toBe(false);
   });
 
   it('should listen for the to-parent-inlist broadcast and set bar active', function () {
@@ -70,6 +71,7 @@ describe('Controller: IndexController', function () {
     expect($scope.activeMainbar).toBe(false);
     expect($scope.activeListbar).toBe(true);
     expect($scope.activeCartbar).toBe(false);
+    expect($scope.activeManagebar).toBe(false);
   });
 
   it('should listen for the to-parent-incart broadcast and set bar active', function () {
@@ -82,6 +84,20 @@ describe('Controller: IndexController', function () {
     expect($scope.activeMainbar).toBe(false);
     expect($scope.activeListbar).toBe(false);
     expect($scope.activeCartbar).toBe(true);
+    expect($scope.activeManagebar).toBe(false);
+  });
+
+  it('should listen for the to-parent-inmanage broadcast and set bar active', function () {
+    createController();
+    $scope.$digest();
+
+    $rootScope.$broadcast('to-parent-manage');
+    $scope.$digest();
+
+    expect($scope.activeMainbar).toBe(false);
+    expect($scope.activeListbar).toBe(false);
+    expect($scope.activeCartbar).toBe(false);
+    expect($scope.activeManagebar).toBe(true);
   });
 
 });
