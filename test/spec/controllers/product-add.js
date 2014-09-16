@@ -47,4 +47,12 @@ describe('Controller: ProductAddCtrl', function () {
     expect(productService.addProductInfo).toHaveBeenCalled();
   });
 
+  it('should set tip when add product info is null', function () {
+    spyOn(productService, 'getAllProductInfo').and.returnValue(productList);
+    createController();
+    $scope.addproduct = {'barcode': 'ITEM000003', 'name': '荔枝', 'unit': '斤'};
+    $scope.addProductInfo();
+    expect($scope.tip).toEqual('输入项不能为空！');
+  });
+
 });
