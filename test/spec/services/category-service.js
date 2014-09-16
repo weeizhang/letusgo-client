@@ -1,12 +1,13 @@
 'use strict';
 
 describe('Service: categoryService', function () {
-  var localStorageService, categoryService, categoryList;
+  var localStorageService, categoryService, productService, categoryList;
 
   beforeEach(function () {
     module('letusgoApp');
     inject(function ($injector) {
       categoryService = $injector.get('CategoryService');
+      productService = $injector.get('ProductService');
       localStorageService = $injector.get('localStorageService');
     });
 
@@ -59,9 +60,20 @@ describe('Service: categoryService', function () {
     spyOn(localStorageService, 'get').and.returnValue(categoryList);
     spyOn(localStorageService, 'set');
     var categoryInfo = {id: 4, name: '食品'};
-    categoryService.removeCategoryInfo(categoryInfo);
+    var result = categoryService.removeCategoryInfo(categoryInfo);
+    expect(result).toBe(true);
     expect(localStorageService.get.calls.count()).toEqual(2);
     expect(localStorageService.set.calls.count()).toEqual(1);
+  });
+
+  it('should not reduce category info if have goods', function () {
+    spyOn(localStorageService, 'get').and.returnValue(categoryList);
+    spyOn(localStorageService, 'set');
+    var productList = [{'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}];
+    spyOn(productService,'getAllProductInfo').and.returnValue(productList);
+    var categoryInfo = {id: 4, name: '饮料'};
+    var result = categoryService.removeCategoryInfo(categoryInfo);
+    expect(result).toBe(false);
   });
 
   it('should update category info into category list', function () {
