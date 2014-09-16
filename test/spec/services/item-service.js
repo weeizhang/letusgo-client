@@ -30,4 +30,13 @@ describe('Service: itemService', function () {
     expect(result[5].barcode).toBe('ITEM000005');
   });
 
+  it('should call set when local storage not have items', function () {
+
+    spyOn(localStorageService, 'set');
+    spyOn(localStorageService, 'get').and.returnValue(null);
+    itemService.loadAllItems();
+
+    expect(localStorageService.set).toHaveBeenCalled();
+  });
+
 });
