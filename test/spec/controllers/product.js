@@ -97,6 +97,9 @@ describe('Controller: ProductCtrl', function () {
     createController();
     $scope.currentPage = 1;
     expect($scope.prevPageDisabled()).toBe(true);
+
+    $scope.currentPage = 2;
+    expect($scope.prevPageDisabled()).toBe(false);
   });
 
   it('should return true when current page is max',function() {
