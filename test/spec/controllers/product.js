@@ -107,6 +107,9 @@ describe('Controller: ProductCtrl', function () {
     spyOn($scope, 'pageCount').and.returnValue(3);
     $scope.currentPage = 3;
     expect($scope.nextPageDisabled()).toBe(true);
+
+    $scope.currentPage = 2;
+    expect($scope.nextPageDisabled()).toBe(false);
   });
 
   it('should add page number when click next page',function() {
