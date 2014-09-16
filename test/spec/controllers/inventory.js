@@ -10,14 +10,14 @@ describe('Controller: InventoryCtrl', function () {
     inject(function ($injector) {
 
       $scope = $injector.get('$rootScope').$new();
-      cartService = $injector.get('cartService');
+      cartService = $injector.get('CartService');
 
       var $controller = $injector.get('$controller');
 
       createController = function () {
         return $controller('InventoryCtrl', {
           $scope: $scope,
-          cartService: cartService
+          CartService: cartService
         });
       };
     });

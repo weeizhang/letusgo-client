@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .controller('ProductUpdateCtrl', function ($scope, $location, productService, categoryService) {
+  .controller('ProductUpdateCtrl', function ($scope, $location, ProductService, CategoryService) {
 
     $scope.$emit('to-parent-manage');
 
     var id = $location.search().id;
-    $scope.updateproduct = productService.getProductInfoById(id);
+    $scope.updateproduct = ProductService.getProductInfoById(id);
 
-    $scope.categorys = categoryService.getAllCategoryInfo();
+    $scope.categorys = CategoryService.getAllCategoryInfo();
 
     $scope.updateProductInfo = function () {
-      productService.updateProductInfo($scope.updateproduct);
+      ProductService.updateProductInfo($scope.updateproduct);
       $location.path('/product');
     };
 

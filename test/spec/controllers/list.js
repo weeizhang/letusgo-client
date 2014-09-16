@@ -10,16 +10,16 @@ describe('Controller: ListCtrl', function () {
     inject(function ($injector) {
 
       $scope = $injector.get('$rootScope').$new();
-      itemService = $injector.get('itemService');
-      cartService = $injector.get('cartService');
+      itemService = $injector.get('ItemService');
+      cartService = $injector.get('CartService');
 
       var $controller = $injector.get('$controller');
 
       createController = function () {
         return $controller('ListCtrl', {
           $scope: $scope,
-          itemService: itemService,
-          cartService: cartService
+          ItemService: itemService,
+          CartService: cartService
         });
       };
     });

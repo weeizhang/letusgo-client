@@ -6,7 +6,7 @@ describe('Service: itemService', function () {
   beforeEach(function () {
     module('letusgoApp');
     inject(function ($injector) {
-      itemService = $injector.get('itemService');
+      itemService = $injector.get('ItemService');
       localStorageService = $injector.get('localStorageService');
     });
     var item1 = {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};

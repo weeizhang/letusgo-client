@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .service('categoryService', function (localStorageService, productService) {
+  .service('CategoryService', function (localStorageService, ProductService) {
 
     this.getAllCategoryInfo = function () {
       return localStorageService.get('categorys');
@@ -32,7 +32,7 @@ angular.module('letusgoApp')
     };
 
     var isRemove = function (categoryInfo) {
-      var productList = productService.getAllProductInfo();
+      var productList = ProductService.getAllProductInfo();
       var result = true;
       _.forEach(productList, function (item) {
         if (result === true && item.category === categoryInfo.name) {

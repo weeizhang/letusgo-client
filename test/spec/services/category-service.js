@@ -6,7 +6,7 @@ describe('Service: categoryService', function () {
   beforeEach(function () {
     module('letusgoApp');
     inject(function ($injector) {
-      categoryService = $injector.get('categoryService');
+      categoryService = $injector.get('CategoryService');
       localStorageService = $injector.get('localStorageService');
     });
 

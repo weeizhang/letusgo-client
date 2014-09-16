@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .controller('ProductCtrl', function ($scope, $location, productService, categoryService) {
+  .controller('ProductCtrl', function ($scope, $location, ProductService, CategoryService) {
 
     $scope.$emit('to-parent-manage');
 
-    $scope.categorys = categoryService.getAllCategoryInfo();
+    $scope.categorys = CategoryService.getAllCategoryInfo();
 
-    $scope.products = productService.getAllProductInfo();
+    $scope.products = ProductService.getAllProductInfo();
 
 
     $scope.itemsPerPage = 5;
@@ -53,7 +53,7 @@ angular.module('letusgoApp')
 
 
     $scope.removeProductInfo = function (productInfo) {
-      $scope.products = productService.removeProductInfo(productInfo);
+      $scope.products = ProductService.removeProductInfo(productInfo);
     };
 
     $scope.update = function (productInfo) {

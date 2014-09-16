@@ -11,7 +11,7 @@ describe('Controller: CategoryCtrl', function () {
 
       $scope = $injector.get('$rootScope').$new();
       $location = $injector.get('$location');
-      categoryService = $injector.get('categoryService');
+      categoryService = $injector.get('CategoryService');
 
       var $controller = $injector.get('$controller');
 
@@ -19,7 +19,7 @@ describe('Controller: CategoryCtrl', function () {
         return $controller('CategoryCtrl', {
           $scope: $scope,
           $location: $location,
-          categoryService: categoryService
+          CategoryService: categoryService
         });
       };
     });

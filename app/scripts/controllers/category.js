@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .controller('CategoryCtrl', function ($scope, $location, categoryService) {
+  .controller('CategoryCtrl', function ($scope, $location, CategoryService) {
 
     $scope.$emit('to-parent-manage');
 
-    $scope.categorys = categoryService.getAllCategoryInfo();
+    $scope.categorys = CategoryService.getAllCategoryInfo();
     $scope.tip = '';
 
     $scope.itemsPerPage = 5;
@@ -51,10 +51,10 @@ angular.module('letusgoApp')
 
 
     $scope.removeCategoryInfo = function (categoryInfo) {
-      var isRemove = categoryService.removeCategoryInfo(categoryInfo);
+      var isRemove = CategoryService.removeCategoryInfo(categoryInfo);
       if(isRemove){
         $scope.tip = '';
-        $scope.categorys = categoryService.getAllCategoryInfo();
+        $scope.categorys = CategoryService.getAllCategoryInfo();
       }else{
         $scope.tip = '该类别下有商品，无法删除！';
       }

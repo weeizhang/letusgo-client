@@ -10,14 +10,14 @@ describe('Controller: CategoryAddCtrl', function () {
     inject(function ($injector) {
 
       $scope = $injector.get('$rootScope').$new();
-      categoryService = $injector.get('categoryService');
+      categoryService = $injector.get('CategoryService');
 
       var $controller = $injector.get('$controller');
 
       createController = function () {
         return $controller('CategoryAddCtrl', {
           $scope: $scope,
-          categoryService: categoryService
+          CategoryService: categoryService
         });
       };
     });

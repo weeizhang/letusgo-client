@@ -11,14 +11,14 @@ describe('Controller: IndexController', function () {
 
       $rootScope = $injector.get('$rootScope');
       $scope = $rootScope.$new();
-      cartService = $injector.get('cartService');
+      cartService = $injector.get('CartService');
 
       var $controller = $injector.get('$controller');
 
       createController = function () {
         return $controller('IndexController', {
           $scope: $scope,
-          cartService: cartService
+          CartService: cartService
         });
       };
     });

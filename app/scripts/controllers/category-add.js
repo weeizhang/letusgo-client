@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .controller('CategoryAddCtrl', function ($scope, $location, categoryService) {
+  .controller('CategoryAddCtrl', function ($scope, $location, CategoryService) {
 
     function addCategory() {
       $scope.addcategory.id = $scope.categorys[$scope.categorys.length - 1].id + 1;
-      $scope.categorys = categoryService.addCategoryInfo($scope.addcategory);
+      $scope.categorys = CategoryService.addCategoryInfo($scope.addcategory);
     }
 
     $scope.$emit('to-parent-manage');
@@ -13,7 +13,7 @@ angular.module('letusgoApp')
     $scope.addcategory = {};
     $scope.tip = '';
 
-    $scope.categorys = categoryService.getAllCategoryInfo();
+    $scope.categorys = CategoryService.getAllCategoryInfo();
 
     $scope.addCategoryInfo = function () {
       if ($scope.addcategory.name !== undefined) {

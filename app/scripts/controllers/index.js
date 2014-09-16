@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .controller('IndexController', function ($scope, cartService) {
+  .controller('IndexController', function ($scope, CartService) {
 
     function barActivity(main, list, cart, manage) {
       $scope.activeMainbar = main;
@@ -10,10 +10,10 @@ angular.module('letusgoApp')
       $scope.activeManagebar = manage;
     }
 
-    $scope.amounts = cartService.getAmount();
+    $scope.amounts = CartService.getAmount();
 
     $scope.$on('to-parent-changeamounts', function () {
-      $scope.amounts = cartService.getAmount();
+      $scope.amounts = CartService.getAmount();
     });
 
     $scope.$on('to-parent-inmain', function () {
@@ -21,7 +21,7 @@ angular.module('letusgoApp')
     });
 
     $scope.$on('to-parent-inlist', function () {
-      $scope.amounts = cartService.getAmount();
+      $scope.amounts = CartService.getAmount();
       barActivity(false, true, false, false);
     });
 

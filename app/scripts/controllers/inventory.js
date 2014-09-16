@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .controller('InventoryCtrl', function ($scope, cartService) {
+  .controller('InventoryCtrl', function ($scope, CartService) {
 
     $scope.curdate = moment(new Date()).format('YYYY年MM月DD日 HH:mm:ss');
-    $scope.cartItemList = cartService.getCartItem();
+    $scope.cartItemList = CartService.getCartItem();
 
-    $scope.inventorytotal = cartService.totalPrice($scope.cartItemList);
+    $scope.inventorytotal = CartService.totalPrice($scope.cartItemList);
 
     $scope.okPayClick = function () {
-      cartService.cleanCart();
+      CartService.cleanCart();
       $scope.$emit('to-parent-changeamounts');
     };
 

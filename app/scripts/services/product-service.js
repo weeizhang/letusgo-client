@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .service('productService', function (localStorageService) {
+  .service('ProductService', function (localStorageService) {
 
     this.getAllProductInfo = function () {
       return localStorageService.get('items');

@@ -1,26 +1,26 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .controller('CartCtrl', function ($scope, cartService) {
+  .controller('CartCtrl', function ($scope, CartService) {
 
     function emit(name) {
       $scope.$emit(name);
     }
 
     function updateData(cartItemList) {
-      $scope.cartItemGroup = cartService.categoryCartItem(cartItemList);
-      $scope.total = cartService.totalPrice(cartItemList);
+      $scope.cartItemGroup = CartService.categoryCartItem(cartItemList);
+      $scope.total = CartService.totalPrice(cartItemList);
     }
 
     emit('to-parent-incart');
 
-    var cartItemList = cartService.getCartItem();
+    var cartItemList = CartService.getCartItem();
 
     updateData(cartItemList);
 
     $scope.addCartItemClick = function (cartItem) {
 
-      cartItemList = cartService.addCartItem(cartItem.item);
+      cartItemList = CartService.addCartItem(cartItem.item);
 
       updateData(cartItemList);
 
@@ -29,7 +29,7 @@ angular.module('letusgoApp')
 
     $scope.reduceCartItemClick = function (cartItem) {
 
-      cartItemList = cartService.reduceCartItem(cartItem.item);
+      cartItemList = CartService.reduceCartItem(cartItem.item);
 
       updateData(cartItemList);
 
@@ -37,7 +37,7 @@ angular.module('letusgoApp')
     };
 
     $scope.isShow = function () {
-      cartItemList = cartService.getCartItem();
+      cartItemList = CartService.getCartItem();
       return !(cartItemList === null || cartItemList.length === 0);
     };
 
