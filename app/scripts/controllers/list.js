@@ -1,11 +1,14 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .controller('ListCtrl', function ($scope, ItemService, CartService) {
+  .controller('ListCtrl', function ($scope, $http, ItemService, CartService) {
 
     $scope.$emit('to-parent-inlist');
 
-    $scope.items = ItemService.loadAllItems();
+    var promise = ItemService.loadAllItems();
+    promise.then(function(data) {
+      $scope.items = data;
+    });
 
     $scope.addCartItem = function (item) {
       CartService.addCartItem(item);
