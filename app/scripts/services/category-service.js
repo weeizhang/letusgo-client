@@ -47,7 +47,7 @@ angular.module('letusgoApp')
         if (isRemove(categoryInfo)) {
           var index = _.findIndex(categoryList, {'id': categoryInfo.id});
           categoryList.splice(index, 1);
-          setCategories(data, function(data1) {
+          setCategories(categoryList, function(data1) {
             if(data1 === 'OK'){
               callback(true);
             }
