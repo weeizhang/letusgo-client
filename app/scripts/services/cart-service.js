@@ -58,7 +58,7 @@ angular.module('letusgoApp')
           cartItemList.push(cartItem);
         }
 
-        setData(cartItemList, +localStorageService.get('amounts') + 1, function (data) {
+        setData(cartItemList, parseInt(localStorageService.get('amounts')) + 1, function (data) {
 
         });
       });
@@ -77,7 +77,7 @@ angular.module('letusgoApp')
           _.remove(cartItemList, cartItemList[index]);
         }
 
-        setData(cartItemList, +localStorageService.get('amounts') + 1, function (data) {
+        setData(cartItemList, parseInt(localStorageService.get('amounts')) + 1, function (data) {
 
         });
       });
