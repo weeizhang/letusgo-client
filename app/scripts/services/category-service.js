@@ -75,9 +75,7 @@ angular.module('letusgoApp')
         var index = _.findIndex(categoryList, {'id': categoryInfo.id});
         categoryList[index] = categoryInfo;
         setCategories(data, function(data1) {
-          if(data1 === 'OK'){
-            callback(categoryList);
-          }
+          callback(data1);
         });
       });
     };
