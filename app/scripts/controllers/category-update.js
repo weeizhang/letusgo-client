@@ -6,11 +6,16 @@ angular.module('letusgoApp')
     $scope.$emit('to-parent-manage');
 
     var id = $location.search().id;
-    $scope.newcategory = CategoryService.getCategoryInfoById(id);
+    CategoryService.getCategoryInfoById(id, function(data) {
+      $scope.newcategory = data;
+    });
 
     $scope.updateCategoryInfo = function () {
-      CategoryService.updateCategoryInfo($scope.newcategory);
-      $location.path('/category');
+      CategoryService.updateCategoryInfo($scope.newcategory, function(data) {
+        if(data === 'OK'){
+          $location.path('/category');
+        }
+      });
     };
 
   });

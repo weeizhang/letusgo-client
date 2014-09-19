@@ -3,9 +3,11 @@
 angular.module('letusgoApp')
   .controller('CategoryAddCtrl', function ($scope, $location, CategoryService) {
 
-    function addCategory() {
+    function addCategory(callback) {
       $scope.addcategory.id = $scope.categorys[$scope.categorys.length - 1].id + 1;
-      $scope.categorys = CategoryService.addCategoryInfo($scope.addcategory);
+      CategoryService.addCategoryInfo($scope.addcategory, function(data) {
+        callback(data);
+      });
     }
 
     $scope.$emit('to-parent-manage');
@@ -13,13 +15,17 @@ angular.module('letusgoApp')
     $scope.addcategory = {};
     $scope.tip = '';
 
-    $scope.categorys = CategoryService.getAllCategoryInfo();
+    CategoryService.getAllCategoryInfo(function(data) {
+      $scope.categorys = data;
+    });
 
     $scope.addCategoryInfo = function () {
       if ($scope.addcategory.name !== undefined) {
         $scope.tip = '';
-        addCategory();
-        $location.path('/category');
+        addCategory(function(data) {
+          $scope.categorys = data;
+          $location.path('/category');
+        });
       } else {
         $scope.tip = '请输入类别!';
       }
