@@ -11,8 +11,12 @@ angular.module('letusgoApp')
     $scope.inventorytotal = CartService.totalPrice($scope.cartItemList);
 
     $scope.okPayClick = function () {
-      CartService.cleanCart();
       $scope.$emit('to-parent-changeamounts');
+      CartService.cleanCart(function(data){
+        if(data==='OK'){
+          alert('支付成功！');
+        }
+      });
     };
 
   });

@@ -98,8 +98,12 @@ angular.module('letusgoApp')
       return sum;
     };
 
-    this.cleanCart = function () {
-      localStorageService.remove('cartItems');
+    this.cleanCart = function (callback) {
       localStorageService.set('amounts', 0);
+      var cartItems = [];
+      $http({method: 'POST', url: '/api/cartItems', params: {'cartItems': JSON.stringify(cartItems)}})
+        .success(function (data) {
+          callback(data);
+        });
     };
   });
