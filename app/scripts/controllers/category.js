@@ -5,7 +5,9 @@ angular.module('letusgoApp')
 
     $scope.$emit('to-parent-manage');
 
-    $scope.categorys = CategoryService.getAllCategoryInfo();
+    CategoryService.getAllCategoryInfo(function (data) {
+      $scope.categorys = data;
+    });
     $scope.tip = '';
 
     $scope.itemsPerPage = 5;
@@ -19,7 +21,7 @@ angular.module('letusgoApp')
     $scope.range = function () {
       var pages = [];
       var maxPage = $scope.pageCount();
-      for(var i = 1;i<=maxPage;i++){
+      for (var i = 1; i <= maxPage; i++) {
         pages.push(i);
       }
       return pages;
@@ -51,13 +53,15 @@ angular.module('letusgoApp')
 
 
     $scope.removeCategoryInfo = function (categoryInfo) {
-      var isRemove = CategoryService.removeCategoryInfo(categoryInfo);
-      if(isRemove){
-        $scope.tip = '';
-        $scope.categorys = CategoryService.getAllCategoryInfo();
-      }else{
-        $scope.tip = '该类别下有商品，无法删除！';
-      }
+      CategoryService.removeCategoryInfo(categoryInfo, function(data) {
+        var isRemove = data;
+        if (isRemove) {
+          $scope.tip = '';
+          $scope.categorys = CategoryService.getAllCategoryInfo();
+        } else {
+          $scope.tip = '该类别下有商品，无法删除！';
+        }
+      });
     };
 
     $scope.updateClick = function (categoryInfo) {
