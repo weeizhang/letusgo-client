@@ -5,8 +5,8 @@
   <div class="panel-body">
     <div class="form-group">
       <label class="control-label">类别</label>
-      <select class="form-control" ng-model="updateproduct.category">
-        <option ng-repeat="category in categorys" value="{{category.name}}">{{category.name}}</option>
+      <select class="form-control" ng-model="updateproduct.category" ng-options="category.name as category.name for category in categorys" >
+        <option value="">{{updateproduct.category}}</option>
       </select>
     </div>
     <div class="form-group">
