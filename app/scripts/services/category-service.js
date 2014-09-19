@@ -1,34 +1,61 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .service('CategoryService', function (localStorageService, ProductService) {
+  .service('CategoryService', function ($http, ProductService) {
 
-    this.getAllCategoryInfo = function () {
-      return localStorageService.get('categorys');
+    function getCategories(callback) {
+      $http.get('/api/categories')
+        .success(function (data) {
+          callback(data);
+        });
+    }
+
+    function setCategories(categories, callback) {
+      $http({method: 'POST', url: '/api/categories', params: {'categories': JSON.stringify(categories)}})
+        .success(function (data) {
+          callback(data);
+        });
+    }
+
+    this.getAllCategoryInfo = function (callback) {
+      getCategories(function(data) {
+        callback(data);
+      });
     };
 
-    this.getCategoryInfoById = function (id) {
-      var categorys = localStorageService.get('categorys');
-      return _.find(categorys, {'id': id});
+    this.getCategoryInfoById = function (id, callback) {
+      getCategories(function(data) {
+        var category = _.find(data, {'id': id})
+        callback(category);
+      });
     };
 
-    this.addCategoryInfo = function (categoryInfo) {
-      var categoryList = localStorageService.get('categorys');
-      categoryList.push(categoryInfo);
-      localStorageService.set('categorys', categoryList);
-      return categoryList;
+    this.addCategoryInfo = function (categoryInfo, callback) {
+      getCategories(function(data1) {
+        data1.push(categoryInfo);
+        setCategories(data1, function(data2) {
+          if(data2 === 'OK'){
+            callback(data1);
+          }
+        });
+      });
     };
 
-    this.removeCategoryInfo = function (categoryInfo) {
-      var categoryList = localStorageService.get('categorys');
-      if (isRemove(categoryInfo)) {
-        var index = _.findIndex(categoryList, {'id': categoryInfo.id});
-        categoryList.splice(index, 1);
-        localStorageService.set('categorys', categoryList);
-        return true;
-      } else {
-        return false;
-      }
+    this.removeCategoryInfo = function (categoryInfo, callback) {
+      getCategories(function(data) {
+        var categoryList = data;
+        if (isRemove(categoryInfo)) {
+          var index = _.findIndex(categoryList, {'id': categoryInfo.id});
+          categoryList.splice(index, 1);
+          setCategories(data, function(data1) {
+            if(data1 === 'OK'){
+              callback(true);
+            }
+          });
+        } else {
+          callback(false);
+        }
+      });
     };
 
     var isRemove = function (categoryInfo) {
@@ -42,14 +69,16 @@ angular.module('letusgoApp')
       return result;
     };
 
-    this.updateCategoryInfo = function (categoryInfo) {
-      var categoryList = localStorageService.get('categorys');
-
-      var index = _.findIndex(categoryList, {'id': categoryInfo.id});
-      categoryList[index] = categoryInfo;
-
-      localStorageService.set('categorys', categoryList);
-
-      return categoryList;
+    this.updateCategoryInfo = function (categoryInfo, callback) {
+      getCategories(function(data) {
+        var categoryList = data;
+        var index = _.findIndex(categoryList, {'id': categoryInfo.id});
+        categoryList[index] = categoryInfo;
+        setCategories(data, function(data1) {
+          if(data1 === 'OK'){
+            callback(categoryList);
+          }
+        });
+      });
     };
   });
