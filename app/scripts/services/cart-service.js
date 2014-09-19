@@ -65,7 +65,7 @@ angular.module('letusgoApp')
 
     };
 
-    this.reduceCartItem = function (curitem) {
+    this.reduceCartItem = function (curitem, callback) {
 
       var cartItemList = [];
       getCartItems(function (data) {
@@ -78,7 +78,7 @@ angular.module('letusgoApp')
         }
 
         setData(cartItemList, parseInt(localStorageService.get('amounts')) - 1, function (data) {
-
+          callback(data);
         });
       });
 
