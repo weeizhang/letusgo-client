@@ -5,9 +5,15 @@ angular.module('letusgoApp')
 
     $scope.$emit('to-parent-manage');
 
-    $scope.categorys = CategoryService.getAllCategoryInfo();
+    $scope.categorys = [];
+    CategoryService.getAllCategoryInfo(function(data) {
+      $scope.categorys = data;
+    });
 
-    $scope.products = ProductService.getAllProductInfo();
+    $scope.products = [];
+    ProductService.getAllProductInfo(function(data) {
+      $scope.products = data;
+    });
 
 
     $scope.itemsPerPage = 5;
@@ -53,7 +59,9 @@ angular.module('letusgoApp')
 
 
     $scope.removeProductInfo = function (productInfo) {
-      $scope.products = ProductService.removeProductInfo(productInfo);
+      ProductService.removeProductInfo(productInfo, function(data) {
+        $scope.products = data;
+      });
     };
 
     $scope.update = function (productInfo) {
