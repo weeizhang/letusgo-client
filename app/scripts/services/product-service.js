@@ -18,35 +18,54 @@ angular.module('letusgoApp')
     }
 
     this.getAllProductInfo = function (callback) {
-      
+      getItems(function (data) {
+        callback(data);
+      });
     };
 
-    this.getProductInfoById = function (barcode) {
-      var products = localStorageService.get('items');
-      return _.find(products, {'id': barcode});
+    this.getProductInfoById = function (barcode, callback) {
+      getItems(function (data) {
+        var product = _.find(data, {'id': barcode});
+        callback(product);
+      });
     };
 
-    this.addProductInfo = function (productInfo) {
-      var productList = localStorageService.get('items');
-      productList.push(productInfo);
-      localStorageService.set('items', productList);
-      return productList;
+    this.addProductInfo = function (productInfo, callback) {
+      getItems(function (data) {
+        var productList = data;
+        productList.push(productInfo);
+        setItems(productList, function(data1) {
+          if(data1 === 'OK'){
+            callback(productList);
+          }
+        })
+      });
     };
 
-    this.removeProductInfo = function (productInfo) {
-      var productList = localStorageService.get('items');
-      var index = _.findIndex(productList, {'barcode': productInfo.barcode});
-      productList.splice(index, 1);
-      localStorageService.set('items', productList);
-      return productList;
+    this.removeProductInfo = function (productInfo, callback) {
+      getItems(function(data) {
+        var productList = data;
+        var index = _.findIndex(productList, {'barcode': productInfo.barcode});
+        productList.splice(index, 1);
+        setItems(productList, function(data1) {
+          if(data1 === 'OK'){
+            callback(productList);
+          }
+        })
+      });
     };
 
-    this.updateProductInfo = function (productInfo) {
-      var productList = localStorageService.get('items');
-      var index = _.findIndex(productList, {'barcode': productInfo.barcode});
-      productList[index] = productInfo;
-      localStorageService.set('items', productList);
-      return productList;
+    this.updateProductInfo = function (productInfo, callback) {
+      getItems(function(data) {
+        var productList = data;
+        var index = _.findIndex(productList, {'barcode': productInfo.barcode});
+        productList[index] = productInfo;
+        setItems(productList, function(data1) {
+          if(data1 === 'OK'){
+            callback(productList);
+          }
+        })
+      });
     };
 
   });
