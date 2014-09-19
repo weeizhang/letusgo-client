@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: CartCtrl', function () {
+xdescribe('Controller: CartCtrl', function () {
 
   var $scope, cartService, createController, cartItems;
 

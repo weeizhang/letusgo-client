@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: IndexController', function () {
+xdescribe('Controller: IndexController', function () {
 
   var $rootScope, $scope, cartService, createController;
 

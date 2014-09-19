@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: itemService', function () {
+xdescribe('Service: itemService', function () {
   var itemService, localStorageService,items;
 
   beforeEach(function () {
