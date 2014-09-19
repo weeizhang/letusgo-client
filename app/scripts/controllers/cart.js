@@ -14,31 +14,34 @@ angular.module('letusgoApp')
 
     emit('to-parent-incart');
 
-    var cartItemList = CartService.getCartItem();
+    CartService.getCartItem(function (data) {
 
-    updateData(cartItemList);
+      updateData(data);
+
+      $scope.isShow = !(data === null || data.length === 0);
+
+    });
+
 
     $scope.addCartItemClick = function (cartItem) {
 
-      cartItemList = CartService.addCartItem(cartItem.item);
+      CartService.addCartItem(cartItem.item);
 
-      updateData(cartItemList);
+      CartService.getCartItem(function (data) {
+        updateData(data);
+        emit('to-parent-changeamounts');
+      });
 
-      emit('to-parent-changeamounts');
     };
 
     $scope.reduceCartItemClick = function (cartItem) {
 
-      cartItemList = CartService.reduceCartItem(cartItem.item);
+      CartService.reduceCartItem(cartItem.item);
 
-      updateData(cartItemList);
+      CartService.getCartItem(function (data) {
+        updateData(data);
+        emit('to-parent-changeamounts');
+      });
 
-      emit('to-parent-changeamounts');
     };
-
-    $scope.isShow = function () {
-      cartItemList = CartService.getCartItem();
-      return !(cartItemList === null || cartItemList.length === 0);
-    };
-
   });
