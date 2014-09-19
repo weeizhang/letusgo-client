@@ -55,8 +55,7 @@ angular.module('letusgoApp')
 
     $scope.removeCategoryInfo = function (categoryInfo) {
       CategoryService.removeCategoryInfo(categoryInfo, function(data) {
-        var isRemove = data;
-        if (isRemove) {
+        if (data) {
           $scope.tip = '';
           CategoryService.getAllCategoryInfo(function(data) {
             $scope.categorys = data;
