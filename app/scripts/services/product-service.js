@@ -25,7 +25,7 @@ angular.module('letusgoApp')
 
     this.getProductInfoById = function (barcode, callback) {
       getItems(function (data) {
-        var product = _.find(data, {'id': barcode});
+        var product = _.find(data, {'barcode': barcode});
         callback(product);
       });
     };
@@ -62,7 +62,7 @@ angular.module('letusgoApp')
         productList[index] = productInfo;
         setItems(productList, function(data1) {
           if(data1 === 'OK'){
-            callback(productList);
+            callback();
           }
         })
       });
