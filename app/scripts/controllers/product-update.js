@@ -5,14 +5,19 @@ angular.module('letusgoApp')
 
     $scope.$emit('to-parent-manage');
 
-    var id = $location.search().id;
-    $scope.updateproduct = ProductService.getProductInfoById(id);
+    var barcode = $location.search().barcode;
+    ProductService.getProductInfoById(barcode, function(data) {
+      $scope.updateproduct = data;
+    });
 
-    $scope.categorys = CategoryService.getAllCategoryInfo();
+    CategoryService.getAllCategoryInfo(function(data) {
+      $scope.categorys = data;
+    });
 
     $scope.updateProductInfo = function () {
-      ProductService.updateProductInfo($scope.updateproduct);
-      $location.path('/product');
+      ProductService.updateProductInfo($scope.updateproduct, function() {
+        $location.path('/product');
+      });
     };
 
   });
