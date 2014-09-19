@@ -3,13 +3,11 @@
 angular.module('letusgoApp')
   .service('ItemService', function ($http,$q) {
 
-    this.loadAllItems = function () {
-      var deferred = $q.defer();
+    this.loadAllItems = function(callback){
       $http.get('/api/items')
         .success(function (data) {
-          deferred.resolve(data);
+          callback(data);
         });
-      return deferred.promise;
     };
 
   });

@@ -5,8 +5,7 @@ angular.module('letusgoApp')
 
     $scope.$emit('to-parent-inlist');
 
-    var promise = ItemService.loadAllItems();
-    promise.then(function(data) {
+    ItemService.loadAllItems(function(data){
       $scope.items = data;
     });
 
