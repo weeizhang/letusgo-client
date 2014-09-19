@@ -4,6 +4,7 @@ angular.module('letusgoApp')
   .controller('CategoryCtrl', function ($scope, $location, CategoryService) {
 
     $scope.$emit('to-parent-manage');
+    $scope.categorys = [];
 
     CategoryService.getAllCategoryInfo(function (data) {
       $scope.categorys = data;
@@ -57,7 +58,9 @@ angular.module('letusgoApp')
         var isRemove = data;
         if (isRemove) {
           $scope.tip = '';
-          $scope.categorys = CategoryService.getAllCategoryInfo();
+          CategoryService.getAllCategoryInfo(function(data) {
+            $scope.categorys = data;
+          });
         } else {
           $scope.tip = '该类别下有商品，无法删除！';
         }
