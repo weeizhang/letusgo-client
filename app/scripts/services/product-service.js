@@ -1,10 +1,24 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .service('ProductService', function (localStorageService) {
+  .service('ProductService', function (localStorageService, $http) {
 
-    this.getAllProductInfo = function () {
-      return localStorageService.get('items');
+    function getItems(callback) {
+      $http.get('/api/items')
+        .success(function (data) {
+          callback(data);
+        });
+    }
+
+    function setItems(items, callback) {
+      $http({method: 'POST', url: '/api/items', params: {'items': JSON.stringify(items)}})
+        .success(function (data) {
+          callback(data);
+        });
+    }
+
+    this.getAllProductInfo = function (callback) {
+      
     };
 
     this.getProductInfoById = function (barcode) {
