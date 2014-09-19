@@ -1,15 +1,30 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .service('CartService', function (localStorageService) {
+  .service('CartService', function (localStorageService, $http) {
 
-    function setData(cartItems, amounts) {
-      localStorageService.set('cartItems', cartItems);
+    function setData(cartItems, amounts, callback) {
+
+      $http({method: 'POST', url: '/api/cartItems', params: {'cartItems': JSON.stringify(cartItems)}})
+        .success(function (data) {
+          callback(data);
+        });
+
       localStorageService.set('amounts', amounts);
     }
 
-    this.getCartItem = function () {
-      return localStorageService.get('cartItems');
+    function getCartItems(callback) {
+      $http.get('/api/cartItems')
+        .success(function (data) {
+          callback(data);
+        });
+    }
+
+    this.getCartItem = function (callback) {
+      $http.get('/api/cartItems')
+        .success(function (data) {
+          callback(data);
+        });
     };
 
     this.getAmount = function () {
@@ -32,35 +47,41 @@ angular.module('letusgoApp')
 
     this.addCartItem = function (curitem) {
 
-      var cartItemList = localStorageService.get('cartItems') || [];
+      var cartItemList = [];
+      getCartItems(function (data) {
+        cartItemList = data || [];
+        if (_.any(cartItemList, {'item': curitem})) {
+          var index = _.findIndex(cartItemList, {'item': curitem});
+          cartItemList[index].num++;
+        } else {
+          var cartItem = {'item': curitem, 'num': 1};
+          cartItemList.push(cartItem);
+        }
 
-      if (_.any(cartItemList, {'item': curitem})) {
-        var index = _.findIndex(cartItemList, {'item': curitem});
-        cartItemList[index].num++;
-      } else {
-        var cartItem = {'item': curitem, 'num': 1};
-        cartItemList.push(cartItem);
-      }
+        setData(cartItemList, +localStorageService.get('amounts') + 1, function (data) {
 
-      setData(cartItemList, +localStorageService.get('amounts') + 1);
+        });
+      });
 
-      return cartItemList;
     };
 
     this.reduceCartItem = function (curitem) {
 
-      var cartItemList = localStorageService.get('cartItems');
+      var cartItemList = [];
+      getCartItems(function (data) {
+        cartItemList = data || [];
+        var index = _.findIndex(cartItemList, {'item': curitem});
+        cartItemList[index].num--;
 
-      var index = _.findIndex(cartItemList, {'item': curitem});
-      cartItemList[index].num--;
+        if (cartItemList[index].num <= 0) {
+          _.remove(cartItemList, cartItemList[index]);
+        }
 
-      if (cartItemList[index].num <= 0) {
-        _.remove(cartItemList, cartItemList[index]);
-      }
+        setData(cartItemList, +localStorageService.get('amounts') + 1, function (data) {
 
-      setData(cartItemList, +localStorageService.get('amounts') - 1);
+        });
+      });
 
-      return  cartItemList;
     };
 
     this.totalPrice = function (cartItemList) {
