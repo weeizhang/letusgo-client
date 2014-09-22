@@ -24,22 +24,16 @@ angular.module('letusgoApp')
 
 
     $scope.addCartItemClick = function (cartItem) {
-
-      CartService.addCartItem(cartItem.item, function(data){
-        if(data === 'OK'){
-          emit('to-parent-changeamounts');
-          CartService.getCartItem(function (data) {
-            updateData(data);
-          });
-        }
+      CartService.addCartItem(cartItem.item, function (data) {
+        emit('to-parent-changeamounts');
+        updateData(data);
       });
-
     };
 
     $scope.reduceCartItemClick = function (cartItem) {
 
-      CartService.reduceCartItem(cartItem.item, function(data){
-        if(data === 'OK'){
+      CartService.reduceCartItem(cartItem.item, function (data) {
+        if (data === 'OK') {
           emit('to-parent-changeamounts');
           CartService.getCartItem(function (data) {
             updateData(data);
