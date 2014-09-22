@@ -24,6 +24,13 @@ angular.module('letusgoApp')
         });
     }
 
+    function updateCategory(category, callback) {
+      var id = category.id;
+      $http.put('/api/categories/'+id , {'category': category})
+        .success(function (data) {
+          callback(data);
+        });
+    }
 
     this.getAllCategoryInfo = function (callback) {
       getCategories(function(data) {
@@ -73,13 +80,8 @@ angular.module('letusgoApp')
     };
 
     this.updateCategoryInfo = function (categoryInfo, callback) {
-      getCategories(function(data) {
-        var categoryList = data;
-        var index = _.findIndex(categoryList, {'id': categoryInfo.id});
-        categoryList[index] = categoryInfo;
-        setCategories(data, function(data1) {
-          callback(data1);
-        });
+      updateCategory(categoryInfo, function(data) {
+        callback(data);
       });
     };
   });
