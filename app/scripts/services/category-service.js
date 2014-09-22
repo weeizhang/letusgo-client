@@ -10,13 +10,6 @@ angular.module('letusgoApp')
         });
     }
 
-    function setCategories(categories, callback) {
-      $http({method: 'POST', url: '/api/categories', params: {'categories': JSON.stringify(categories)}})
-        .success(function (data) {
-          callback(data);
-        });
-    }
-
     function addCategory(category, callback) {
       $http.post('/api/categories', {'category': category})
         .success(function (data) {
@@ -27,6 +20,14 @@ angular.module('letusgoApp')
     function updateCategory(category, callback) {
       var id = category.id;
       $http.put('/api/categories/'+id , {'category': category})
+        .success(function (data) {
+          callback(data);
+        });
+    }
+
+    function removeCategory(category, callback) {
+      var id = category.id;
+      $http.delete('/api/categories/'+id)
         .success(function (data) {
           callback(data);
         });
@@ -52,20 +53,13 @@ angular.module('letusgoApp')
     };
 
     this.removeCategoryInfo = function (categoryInfo, callback) {
-      getCategories(function(data) {
-        var categoryList = data;
-        if (isRemove(categoryInfo)) {
-          var index = _.findIndex(categoryList, {'id': categoryInfo.id});
-          categoryList.splice(index, 1);
-          setCategories(categoryList, function(data1) {
-            if(data1 === 'OK'){
-              callback(true);
-            }
-          });
-        } else {
-          callback(false);
-        }
-      });
+      if(isRemove(categoryInfo)){
+        removeCategory(categoryInfo, function(data) {
+          callback(true);
+        });
+      } else {
+        callback(true);
+      }
     };
 
     var isRemove = function (categoryInfo) {
