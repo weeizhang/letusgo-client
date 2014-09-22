@@ -3,14 +3,6 @@
 angular.module('letusgoApp')
   .service('CartService', function (localStorageService, $http) {
 
-    function setData(cartItems, amounts, callback) {
-      $http.post('/api/cartItems', {cartItems: cartItems})
-        .success(function (data) {
-          callback(data);
-        });
-      localStorageService.set('amounts', amounts);
-    }
-
     function addCartItem(item, callback) {
       $http.post('/api/cartItems', {'cartItem': item})
         .success(function (data) {
@@ -21,13 +13,6 @@ angular.module('letusgoApp')
     function reduceCartItem(item, callback) {
       var id = item.id;
       $http.delete('/api/cartItems/'+id)
-        .success(function (data) {
-          callback(data);
-        });
-    }
-
-    function getCartItems(callback) {
-      $http.get('/api/cartItems')
         .success(function (data) {
           callback(data);
         });
