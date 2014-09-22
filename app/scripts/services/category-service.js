@@ -11,6 +11,7 @@ angular.module('letusgoApp')
     }
 
     function setCategories(categories, callback) {
+//      $http.post('/api/categories', {categories: categories});
       $http({method: 'POST', url: '/api/categories', params: {'categories': JSON.stringify(categories)}})
         .success(function (data) {
           callback(data);
