@@ -4,7 +4,6 @@ angular.module('letusgoApp')
   .controller('CategoryAddCtrl', function ($scope, $location, CategoryService) {
 
     function addCategory(callback) {
-      $scope.addcategory.id = $scope.categorys[$scope.categorys.length - 1].id + 1;
       CategoryService.addCategoryInfo($scope.addcategory, function(data) {
         callback(data);
       });

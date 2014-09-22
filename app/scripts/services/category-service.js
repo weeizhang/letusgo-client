@@ -11,12 +11,19 @@ angular.module('letusgoApp')
     }
 
     function setCategories(categories, callback) {
-//      $http.post('/api/categories', {categories: categories});
       $http({method: 'POST', url: '/api/categories', params: {'categories': JSON.stringify(categories)}})
         .success(function (data) {
           callback(data);
         });
     }
+
+    function addCategory(category, callback) {
+      $http.post('/api/categories', {'category': category})
+        .success(function (data) {
+          callback(data);
+        });
+    }
+
 
     this.getAllCategoryInfo = function (callback) {
       getCategories(function(data) {
@@ -32,13 +39,8 @@ angular.module('letusgoApp')
     };
 
     this.addCategoryInfo = function (categoryInfo, callback) {
-      getCategories(function(data1) {
-        data1.push(categoryInfo);
-        setCategories(data1, function(data2) {
-          if(data2 === 'OK'){
-            callback(data1);
-          }
-        });
+      addCategory(categoryInfo, function (data) {
+        callback(data);
       });
     };
 
