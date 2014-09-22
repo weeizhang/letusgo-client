@@ -4,13 +4,18 @@ angular.module('letusgoApp')
   .service('CartService', function (localStorageService, $http) {
 
     function setData(cartItems, amounts, callback) {
-
-      $http({method: 'POST', url: '/api/cartItems', params: {'cartItems': JSON.stringify(cartItems)}})
+      $http.post('/api/cartItems', {cartItems: cartItems})
         .success(function (data) {
           callback(data);
         });
-
       localStorageService.set('amounts', amounts);
+    }
+
+    function addCartItem(item, callback) {
+      $http.post('/api/cartItems', {'cartItem': item})
+        .success(function (data) {
+          callback(data);
+        });
     }
 
     function getCartItems(callback) {
@@ -46,21 +51,10 @@ angular.module('letusgoApp')
     };
 
     this.addCartItem = function (curitem, callback) {
-
-      var cartItemList = [];
-      getCartItems(function (data) {
-        cartItemList = data || [];
-        if (_.any(cartItemList, {'item': curitem})) {
-          var index = _.findIndex(cartItemList, {'item': curitem});
-          cartItemList[index].num++;
-        } else {
-          var cartItem = {'item': curitem, 'num': 1};
-          cartItemList.push(cartItem);
-        }
-
-        setData(cartItemList, parseInt(localStorageService.get('amounts')) + 1, function (data) {
-          callback(data);
-        });
+      addCartItem(curitem, function (data) {
+        var amounts = localStorageService.get('amounts') + 1;
+        localStorageService.set('amounts', amounts);
+        callback(data);
       });
 
     };
@@ -101,7 +95,7 @@ angular.module('letusgoApp')
     this.cleanCart = function (callback) {
       localStorageService.set('amounts', 0);
       var cartItems = [];
-      $http({method: 'POST', url: '/api/cartItems', params: {'cartItems': JSON.stringify(cartItems)}})
+      $http({method: 'POST', url: '/api/cartItems', params: {'cartItems':cartItems}})
         .success(function (data) {
           callback(data);
         });
