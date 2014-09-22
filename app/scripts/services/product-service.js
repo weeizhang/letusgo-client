@@ -10,13 +10,6 @@ angular.module('letusgoApp')
         });
     }
 
-    function setItems(items, callback) {
-      $http({method: 'POST', url: '/api/items', params: {'items': JSON.stringify(items)}})
-        .success(function (data) {
-          callback(data);
-        });
-    }
-
     function addItem(item, callback) {
       $http.post('/api/items', {'item': item})
         .success(function (data) {
