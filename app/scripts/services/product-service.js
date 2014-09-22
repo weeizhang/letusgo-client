@@ -32,6 +32,14 @@ angular.module('letusgoApp')
         });
     }
 
+    function removeItem(item, callback) {
+      var id = item.id;
+      $http.delete('/api/items/'+id)
+        .success(function (data) {
+          callback(data);
+        });
+    }
+
     this.getAllProductInfo = function (callback) {
       getItems(function (data) {
         callback(data);
@@ -52,15 +60,8 @@ angular.module('letusgoApp')
     };
 
     this.removeProductInfo = function (productInfo, callback) {
-      getItems(function (data) {
-        var productList = data;
-        var index = _.findIndex(productList, {'barcode': productInfo.barcode});
-        productList.splice(index, 1);
-        setItems(productList, function (data1) {
-          if (data1 === 'OK') {
-            callback(productList);
-          }
-        })
+      removeItem(productInfo, function(data) {
+        callback(data);
       });
     };
 
