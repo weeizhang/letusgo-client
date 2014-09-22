@@ -77,9 +77,9 @@ angular.module('letusgoApp')
     this.cleanCart = function (callback) {
       localStorageService.set('amounts', 0);
       var cartItems = [];
-      $http({method: 'POST', url: '/api/cartItems', params: {'cartItems':cartItems}})
-        .success(function (data) {
+      $http.delete('/api/cartItems')
+        .success(function(data) {
           callback(data);
-        });
+        })
     };
   });
