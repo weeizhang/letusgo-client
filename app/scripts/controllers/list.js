@@ -5,15 +5,13 @@ angular.module('letusgoApp')
 
     $scope.$emit('to-parent-inlist');
 
-    ItemService.loadAllItems(function(data){
+    ItemService.loadAllItems(function (data) {
       $scope.items = data;
     });
 
     $scope.addCartItem = function (item) {
-      CartService.addCartItem(item, function(data){
-        if(data==='OK'){
-          $scope.$emit('to-parent-changeamounts');
-        }
+      CartService.addCartItem(item, function () {
+        $scope.$emit('to-parent-changeamounts');
       });
     };
   });
