@@ -18,6 +18,14 @@ angular.module('letusgoApp')
         });
     }
 
+    function reduceCartItem(item, callback) {
+      var id = item.id;
+      $http.delete('/api/cartItems/'+id)
+        .success(function (data) {
+          callback(data);
+        });
+    }
+
     function getCartItems(callback) {
       $http.get('/api/cartItems')
         .success(function (data) {
@@ -60,22 +68,11 @@ angular.module('letusgoApp')
     };
 
     this.reduceCartItem = function (curitem, callback) {
-
-      var cartItemList = [];
-      getCartItems(function (data) {
-        cartItemList = data || [];
-        var index = _.findIndex(cartItemList, {'item': curitem});
-        cartItemList[index].num--;
-
-        if (cartItemList[index].num <= 0) {
-          _.remove(cartItemList, cartItemList[index]);
-        }
-
-        setData(cartItemList, parseInt(localStorageService.get('amounts')) - 1, function (data) {
-          callback(data);
-        });
+      reduceCartItem(curitem, function(data) {
+        var amounts = localStorageService.get('amounts') - 1;
+        localStorageService.set('amounts', amounts);
+        callback(data);
       });
-
     };
 
     this.totalPrice = function (cartItemList) {
