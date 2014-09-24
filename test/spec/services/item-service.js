@@ -1,13 +1,13 @@
 'use strict';
 
-xdescribe('Service: itemService', function () {
-  var itemService, localStorageService,items;
+describe('Service: itemService', function () {
+  var itemService, $http,items;
 
   beforeEach(function () {
     module('letusgoApp');
     inject(function ($injector) {
       itemService = $injector.get('ItemService');
-      localStorageService = $injector.get('localStorageService');
+      $http = $injector.get('$http');
     });
     var item1 = {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
     var item2 = {'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
@@ -18,25 +18,17 @@ xdescribe('Service: itemService', function () {
     items = [item1, item2, item3, item4, item5, item6];
   });
 
-  it('should return items', function () {
+  it('should return items', function() {
+    var callback = jasmine.createSpy('callback');
+    callback({
+      items: items
+    });
 
-    spyOn(localStorageService, 'set');
-    spyOn(localStorageService, 'get').and.returnValue(items);
-    var result = itemService.loadAllItems();
+    itemService.loadAllItems(callback);
 
-    expect(result.length).toBe(6);
-    expect(result[0].barcode).toBe('ITEM000000');
-    expect(result[3].barcode).toBe('ITEM000003');
-    expect(result[5].barcode).toBe('ITEM000005');
-  });
-
-  it('should call set when local storage not have items', function () {
-
-    spyOn(localStorageService, 'set');
-    spyOn(localStorageService, 'get').and.returnValue(null);
-    itemService.loadAllItems();
-
-    expect(localStorageService.set).toHaveBeenCalled();
+    expect(callback).toHaveBeenCalledWith(jasmine.objectContaining({
+      items: items
+    }));
   });
 
 });
