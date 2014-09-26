@@ -1,8 +1,8 @@
 'use strict';
 
-xdescribe('Controller: ListCtrl', function () {
+describe('Controller: ListCtrl', function () {
 
-  var $scope, itemService, cartService, createController;
+  var $scope, itemService, cartService, createController, items;
 
   beforeEach(function () {
     module('letusgoApp');
@@ -24,6 +24,14 @@ xdescribe('Controller: ListCtrl', function () {
       };
     });
 
+    var item1 = {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
+    var item2 = {'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
+    var item3 = {'barcode': 'ITEM000002', 'name': '苹果', 'unit': '斤', 'price': 5.50, 'category': '水果'};
+    var item4 = {'barcode': 'ITEM000003', 'name': '荔枝', 'unit': '斤', 'price': 15.00, 'category': '水果'};
+    var item5 = {'barcode': 'ITEM000004', 'name': '电池', 'unit': '个', 'price': 2.00, 'category': '生活用品'};
+    var item6 = {'barcode': 'ITEM000005', 'name': '方便面', 'unit': '袋', 'price': 4.50, 'category': '食品'};
+    items = [item1, item2, item3, item4, item5, item6];
+
     createController();
 
   });
@@ -35,25 +43,13 @@ xdescribe('Controller: ListCtrl', function () {
   });
 
   it('should return all items to items', function () {
-    spyOn(itemService, 'loadAllItems');
+    spyOn(itemService, 'loadAllItems').and.callFake(function (callback) {
+      callback(items);
+    });
     createController();
-    var result = itemService.loadAllItems();
-    expect($scope.items).toEqual(result);
-  });
-
-  it('should call addCartItem in cartService', function () {
-    spyOn(cartService, 'addCartItem');
-    var item = {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
-    $scope.addCartItem(item);
-    expect(cartService.addCartItem).toHaveBeenCalledWith(item);
-  });
-
-  it('should emit to parent controller when add cart item', function () {
-    spyOn($scope, '$emit');
-    spyOn(cartService, 'addCartItem');
-    var item = {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
-    $scope.addCartItem(item);
-    expect($scope.$emit).toHaveBeenCalledWith('to-parent-changeamounts');
+    itemService.loadAllItems(function (data) {
+      expect($scope.items).toEqual(data);
+    });
   });
 
 });
