@@ -1,6 +1,6 @@
 'use strict';
 
-xdescribe('Controller: ProductCtrl', function () {
+describe('Controller: ProductCtrl', function () {
 
   var $scope, $location, productService, createController, productList;
 
@@ -39,7 +39,9 @@ xdescribe('Controller: ProductCtrl', function () {
   });
 
   it('should load all product info list', function () {
-    spyOn(productService, 'getAllProductInfo').and.returnValue(productList);
+    spyOn(productService, 'getAllProductInfo').and.callFake(function (callback) {
+      callback(productList);
+    });
     createController();
     expect($scope.products).toEqual(productList);
   });
@@ -50,9 +52,10 @@ xdescribe('Controller: ProductCtrl', function () {
     spyOn(productService, 'removeProductInfo').and.returnValue(productList);
     createController();
     var product = {'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
-    $scope.removeProductInfo(product);
-    expect(productService.removeProductInfo).toHaveBeenCalledWith(product);
-    expect($scope.products.length).toEqual(2);
+    $scope.removeProductInfo(product, function() {
+      expect(productService.removeProductInfo).toHaveBeenCalledWith(product);
+      expect($scope.products.length).toEqual(2);
+    });
   });
 
   it('should come into product add when click add product', function () {
@@ -72,7 +75,7 @@ xdescribe('Controller: ProductCtrl', function () {
     spyOn(productService, 'getAllProductInfo').and.returnValue(productList);
     createController();
     var pagecount = $scope.pageCount();
-    expect(pagecount).toBe(1);
+    expect(pagecount).toBe(0);
   });
 
   it('should return page range',function() {
