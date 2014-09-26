@@ -1,6 +1,6 @@
 'use strict';
 
-xdescribe('Controller: InventoryCtrl', function () {
+describe('Controller: InventoryCtrl', function () {
 
   var $scope, cartService, createController, cartItems;
 
@@ -34,15 +34,31 @@ xdescribe('Controller: InventoryCtrl', function () {
       callback(cartItems);
     });
     createController();
-    itemService.loadAllItems(function (data) {
+    cartService.getCartItem(function (cartItems) {
       expect($scope.cartItemList).toEqual(cartItems);
     });
   });
 
   it('should call totalPrice in cartService and return to totalPrice', function () {
     spyOn(cartService, 'totalPrice');
+    createController();
     var totalPrice = cartService.totalPrice($scope.cartItemList);
     expect($scope.totalPrice).toEqual(totalPrice);
+  });
+
+  it('should call cleanCart in cartService when click pay button', function () {
+    spyOn(cartService, 'cleanCart');
+    spyOn($scope, '$emit');
+    createController();
+    $scope.okPayClick();
+    expect(cartService.cleanCart).toHaveBeenCalled();
+  });
+
+  it('should emit to parent controller when click pay button', function () {
+    spyOn($scope, '$emit');
+    createController();
+    $scope.okPayClick();
+    expect($scope.$emit).toHaveBeenCalledWith('to-parent-changeamounts');
   });
 
 });
