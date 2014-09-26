@@ -19,7 +19,7 @@ angular.module('letusgoApp')
 
     function updateCategory(category, callback) {
       var id = category.id;
-      $http.put('/api/categories/'+id , {'category': category})
+      $http.put('/api/categories/' + id, {'category': category})
         .success(function (data) {
           callback(data);
         });
@@ -27,21 +27,21 @@ angular.module('letusgoApp')
 
     function removeCategory(category, callback) {
       var id = category.id;
-      $http.delete('/api/categories/'+id)
+      $http.delete('/api/categories/' + id)
         .success(function (data) {
           callback(data);
         });
     }
 
     this.getAllCategoryInfo = function (callback) {
-      getCategories(function(data) {
+      getCategories(function (data) {
         callback(data);
       });
     };
 
     this.getCategoryInfoById = function (id, callback) {
-      getCategories(function(data) {
-        var category = _.find(data, {'id': id})
+      getCategories(function (data) {
+        var category = _.find(data, {'id': id});
         callback(category);
       });
     };
@@ -53,8 +53,8 @@ angular.module('letusgoApp')
     };
 
     this.removeCategoryInfo = function (categoryInfo, callback) {
-      if(isRemove(categoryInfo)){
-        removeCategory(categoryInfo, function(data) {
+      if (isRemove(categoryInfo)) {
+        removeCategory(categoryInfo, function (data) {
           callback(true);
         });
       } else {
@@ -74,7 +74,7 @@ angular.module('letusgoApp')
     };
 
     this.updateCategoryInfo = function (categoryInfo, callback) {
-      updateCategory(categoryInfo, function(data) {
+      updateCategory(categoryInfo, function (data) {
         callback(data);
       });
     };
