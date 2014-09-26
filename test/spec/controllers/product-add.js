@@ -1,6 +1,6 @@
 'use strict';
 
-xdescribe('Controller: ProductAddCtrl', function () {
+describe('Controller: ProductAddCtrl', function () {
 
   var $scope, productService, createController, productList;
 
@@ -37,7 +37,9 @@ xdescribe('Controller: ProductAddCtrl', function () {
   });
 
   it('should add product info into product list', function () {
-    spyOn(productService, 'getAllProductInfo').and.returnValue(productList);
+    spyOn(productService, 'getAllProductInfo').and.callFake(function (callback) {
+      callback(productList);
+    });
     var product = {'barcode': 'ITEM000003', 'name': '荔枝', 'unit': '斤', 'price': 15.00, 'category': '水果'};
     productList.push(product);
     spyOn(productService, 'addProductInfo').and.returnValue(productList);
