@@ -40,12 +40,9 @@ xdescribe('Controller: InventoryCtrl', function () {
   });
 
   it('should call totalPrice in cartService and return to totalPrice', function () {
-    spyOn(cartService, 'totalPrice').and.callFake(function (callback) {
-      callback(50);
-    });
-    cartService.totalPrice($scope.cartItemList , function(){
-      expect($scope.totalPrice).toEqual(50);
-    });
+    spyOn(cartService, 'totalPrice');
+    var totalPrice = cartService.totalPrice($scope.cartItemList);
+    expect($scope.totalPrice).toEqual(totalPrice);
   });
 
 });
