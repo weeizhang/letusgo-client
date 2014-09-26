@@ -1,6 +1,6 @@
 'use strict';
 
-xdescribe('CategoryUpdateCtrl: CategoryCtrl', function () {
+describe('CategoryUpdateCtrl: CategoryCtrl', function () {
 
   var $scope, categoryService, createController, categoryList;
 
