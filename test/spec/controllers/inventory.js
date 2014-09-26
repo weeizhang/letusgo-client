@@ -54,6 +54,28 @@ describe('Controller: InventoryCtrl', function () {
     expect(cartService.cleanCart).toHaveBeenCalled();
   });
 
+  it('should pay success', function () {
+    spyOn(cartService, 'cleanCart').and.callFake(function (callback) {
+      callback('OK');
+    });
+    spyOn($scope, '$emit');
+    spyOn(window, 'alert');
+    createController();
+    $scope.okPayClick();
+    expect(window.alert).toHaveBeenCalled();
+  });
+
+  it('should pay failure', function () {
+    spyOn(cartService, 'cleanCart').and.callFake(function (callback) {
+      callback('ERR');
+    });
+    spyOn($scope, '$emit');
+    spyOn(window, 'alert');
+    createController();
+    $scope.okPayClick();
+    expect(window.alert).not.toHaveBeenCalled();
+  });
+
   it('should emit to parent controller when click pay button', function () {
     spyOn($scope, '$emit');
     createController();
