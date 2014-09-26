@@ -58,4 +58,14 @@ describe('Controller: ListCtrl', function () {
     expect(cartService.addCartItem).toHaveBeenCalled();
   });
 
+  it('should emit to parent controller when add cart item', function () {
+    spyOn($scope, '$emit');
+    spyOn(cartService, 'addCartItem');
+    createController();
+    var item = {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
+    $scope.addCartItem(item, function() {
+      expect($scope.$emit).toHaveBeenCalledWith('to-parent-changeamounts');
+    });
+  });
+
 });
