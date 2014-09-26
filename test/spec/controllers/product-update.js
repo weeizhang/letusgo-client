@@ -1,6 +1,6 @@
 'use strict';
 
-xdescribe('Controller: ProductUpdateCtrl', function () {
+describe('Controller: ProductUpdateCtrl', function () {
 
   var $scope, productService, createController, productList;
 
