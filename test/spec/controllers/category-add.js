@@ -1,6 +1,6 @@
 'use strict';
 
-xdescribe('Controller: CategoryAddCtrl', function () {
+describe('Controller: CategoryAddCtrl', function () {
 
   var $scope, categoryService, createController, categoryList;
 
@@ -43,9 +43,10 @@ xdescribe('Controller: CategoryAddCtrl', function () {
     spyOn(categoryService, 'addCategoryInfo').and.returnValue(categoryList);
     createController();
     $scope.addcategory = {id: 5, name: '文具'};
-    $scope.addCategoryInfo();
-    expect(categoryService.addCategoryInfo).toHaveBeenCalled();
-    expect($scope.categorys.length).toEqual(5);
+    $scope.addCategoryInfo(function(){
+      expect(categoryService.addCategoryInfo).toHaveBeenCalled();
+      expect($scope.categorys.length).toEqual(5);
+    });
   });
 
   it('should alert info when add category info and category info is undefined', function () {
