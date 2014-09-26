@@ -33,6 +33,19 @@ describe('Controller: CategoryCtrl', function () {
 
   });
 
+  it('should emit to parent controller when come in category manage', function () {
+    spyOn($scope, '$emit');
+    createController();
+    expect($scope.$emit).toHaveBeenCalledWith('to-parent-manage');
+  });
+
+  it('should load all category info list', function () {
+    spyOn(categoryService, 'getAllCategoryInfo').and.callFake(function (callback) {
+      callback(categoryList);
+    });
+    createController();
+    expect($scope.categorys).toEqual(categoryList);
+  });
 
 
 });
