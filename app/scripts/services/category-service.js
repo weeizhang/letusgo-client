@@ -63,7 +63,10 @@ angular.module('letusgoApp')
     };
 
     var isRemove = function (categoryInfo) {
-      var productList = ProductService.getAllProductInfo();
+      var productList = null;
+      ProductService.getAllProductInfo(function(data) {
+        productList = data;
+      });
       var result = true;
       _.forEach(productList, function (item) {
         if (result === true && item.category === categoryInfo.name) {
