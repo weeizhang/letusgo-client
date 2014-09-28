@@ -19,7 +19,6 @@ angular.module('letusgoApp')
       $scope.isShow = !(data === null || data.length === 0);
     });
 
-
     $scope.addCartItemClick = function (cartItem) {
       CartService.addCartItem(cartItem.item, function (data) {
         emit('to-parent-changeamounts');
