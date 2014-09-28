@@ -1,27 +1,33 @@
 'use strict';
 
-xdescribe('Service: cartService', function () {
-  var cartService, localStorageService, cartItemList;
+describe('Service: cartService', function () {
+  var cartService, $httpBackend, localStorageService, cartItemList;
 
   beforeEach(function () {
     module('letusgoApp');
     inject(function ($injector) {
       cartService = $injector.get('CartService');
+      $httpBackend = $injector.get('$httpBackend');
       localStorageService = $injector.get('localStorageService');
     });
 
     cartItemList = [
-      {item: {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 1},
-      {item: {'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 3},
-      {item: {'barcode': 'ITEM000003', 'name': '荔枝', 'unit': '斤', 'price': 15.00, 'category': '水果'}, num: 2}
+      {item: {id:1, 'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 1},
+      {item: {id:2, 'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 3},
+      {item: {id:3, 'barcode': 'ITEM000003', 'name': '荔枝', 'unit': '斤', 'price': 15.00, 'category': '水果'}, num: 2}
     ];
   });
 
-  it('should return the cartItemList', function () {
-    spyOn(localStorageService, 'get').and.returnValue(cartItemList);
-    var result = cartService.getCartItem();
+  afterEach(function () {
+    $httpBackend.verifyNoOutstandingExpectation();
+  });
 
-    expect(result).toEqual(cartItemList);
+  it('should return the cartItemList', function () {
+    $httpBackend.expectGET('/api/cartItems').respond(200, cartItemList);
+    cartService.getCartItem(function (data) {
+      expect(data.length).toBe(3);
+    });
+    $httpBackend.flush();
   });
 
   it('should return the amount when amount is not undefined', function () {
@@ -37,10 +43,9 @@ xdescribe('Service: cartService', function () {
     expect(localStorageService.set).toHaveBeenCalled();
   });
 
-  it('should called the set function', function () {
+  it('should called the set function when set amount', function () {
     spyOn(localStorageService, 'set');
     cartService.setAmount(7);
-
     expect(localStorageService.set).toHaveBeenCalled();
   });
 
