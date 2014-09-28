@@ -38,4 +38,14 @@ describe('Service: ProductService', function () {
     $httpBackend.flush();
   });
 
+  it('should remove product info into product list', function () {
+    var product = {id: 1, 'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
+    productList.splice(0, 1);
+    $httpBackend.expectDELETE('/api/items/1').respond(200, productList);
+    productService.removeProductInfo(product, function (data) {
+      expect(data.length).toBe(2);
+    });
+    $httpBackend.flush();
+  });
+
 });
