@@ -48,4 +48,13 @@ describe('Service: ProductService', function () {
     $httpBackend.flush();
   });
 
+  it('should update product info into product list', function () {
+    var product = {id:1, 'barcode': 'ITEM000001', 'name': '果粒橙', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
+    productList[0] = product;
+    $httpBackend.expectPUT('/api/items/1', {item: product}).respond(200, productList);
+    productService.updateProductInfo(product, function (data) {
+      expect(data[0]).toEqual(product);
+    });
+    $httpBackend.flush();
+  });
 });
