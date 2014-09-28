@@ -28,4 +28,14 @@ describe('Service: ProductService', function () {
     $httpBackend.flush();
   });
 
+  it('should add product info into product list', function () {
+    var product = {'barcode': 'ITEM000003', 'name': '荔枝', 'unit': '斤', 'price': 15.00, 'category': '水果'};
+    productList.push(product);
+    $httpBackend.expectPOST('/api/items', {item: product}).respond(200, productList);
+    productService.addProductInfo(product, function (data) {
+      expect(data.length).toBe(4);
+    });
+    $httpBackend.flush();
+  });
+
 });
