@@ -65,25 +65,17 @@ describe('Service: cartService', function () {
   });
 
   it('should reduce cart item from cart item list', function () {
-    spyOn(localStorageService, 'get').and.returnValue(cartItemList);
-    spyOn(localStorageService, 'set');
-
-    var item1 = {'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
-    var item2 = {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
-
-    var cartItemList1 = cartService.reduceCartItem(item1);
-    expect(cartItemList1[1].num).toBe(2);
-
-    var cartItemList2 = cartService.reduceCartItem(item2);
-    expect(cartItemList2.length).toBe(2);
-    expect(cartItemList2[0].item.barcode).toEqual('ITEM000001');
-    expect(cartItemList2[1].item.barcode).toEqual('ITEM000003');
+    var item = {id:2, 'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
+    cartItemList[1].num = 2;
+    $httpBackend.expectDELETE('/api/cartItems/2').respond(200, cartItemList);
+    cartService.reduceCartItem(item, function (data) {
+      expect(data[1].num).toBe(2);
+    });
+    $httpBackend.flush();
   });
 
   it('should return the total price', function () {
-
     var result = cartService.totalPrice(cartItemList);
-
     expect(result).toBe(42);
   });
 
