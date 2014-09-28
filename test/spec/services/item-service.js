@@ -18,18 +18,16 @@ describe('Service: itemService', function () {
     items = [item1, item2, item3, item4, item5, item6];
   });
 
+  afterEach(function() {
+    $httpBackend.verifyNoOutstandingExpectation();
+  });
+
   it('should make a GET request', function () {
-    var callback = jasmine.createSpy('callback');
-    callback({
-      items: items
-    });
     $httpBackend.expectGET('/api/items').respond(200, items);
-    itemService.loadAllItems(callback, function () {
-      $httpBackend.flush();
+    itemService.loadAllItems(function (data){
+      expect(data.length).toBe(6);
     });
-    expect(callback).toHaveBeenCalledWith(jasmine.objectContaining({
-      items: items
-    }));
+    $httpBackend.flush();
   });
 
 })
