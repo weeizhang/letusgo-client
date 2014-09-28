@@ -18,41 +18,18 @@ describe('Service: categoryService', function () {
       {id: 4, name: '食品'}
     ];
 
-    $httpBackend.expectGET('/api/categories').
-      respond(categoryList);
+  });
+
+  afterEach(function() {
+    $httpBackend.verifyNoOutstandingExpectation();
   });
 
   it('should return the categoryList', function () {
-    var callback = jasmine.createSpy('callback');
-    callback({
-      categoryList: categoryList
+    $httpBackend.expectGET('/api/categories').respond(200, categoryList);
+    categoryService.getAllCategoryInfo(function (data){
+      expect(data.length).toBe(4);
     });
-    $httpBackend.expectGET('/api/categories');
-    categoryService.getAllCategoryInfo(callback, function(){
-      $httpBackend.flush();
-    });
-    expect(callback).toHaveBeenCalledWith(jasmine.objectContaining({
-      categoryList: categoryList
-    }));
-  });
-
-  it('should add category info into category list', function () {
-    var categoryInfo = {id: 5, name: '文具'};
-    categoryList.push(categoryInfo);
-    var callback = jasmine.createSpy('callback');
-    callback({
-      categoryList: categoryList
-    });
-    $httpBackend.expectPOST('/api/categories');
-
-    categoryService.addCategoryInfo(categoryInfo);
-    categoryService.getAllCategoryInfo(callback, function(){
-      $httpBackend.flush();
-    });
-    expect(callback).toHaveBeenCalledWith(jasmine.objectContaining({
-      categoryList: categoryList
-    }));
-
+    $httpBackend.flush();
   });
 
 });
