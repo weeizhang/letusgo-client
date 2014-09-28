@@ -54,40 +54,14 @@ describe('Service: cartService', function () {
     expect(result.length).toBe(2);
   });
 
-  it('called local storage service set and get function 2 times when add cart item', function () {
-    spyOn(localStorageService, 'get').and.returnValue(cartItemList);
-    spyOn(localStorageService, 'set');
-    var item = {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
-
-    cartService.addCartItem(item);
-
-    expect(localStorageService.get.calls.count()).toEqual(2);
-    expect(localStorageService.set.calls.count()).toEqual(2);
-  });
-
   it('should add cart item into cart item list', function () {
-    spyOn(localStorageService, 'get').and.returnValue(cartItemList);
-    spyOn(localStorageService, 'set');
-
-    var item1 = {'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
-    var item2 = {'barcode': 'ITEM000005', 'name': '方便面', 'unit': '袋', 'price': 4.50, 'category': '食品'};
-
-    var cartItemList1 = cartService.addCartItem(item1);
-    expect(cartItemList1[1].num).toBe(4);
-
-    var cartItemList2 = cartService.addCartItem(item2);
-    expect(cartItemList2[3].num).toBe(1);
-  });
-
-  it('called local storage service set and get function 2 times when reduce cart item', function () {
-    spyOn(localStorageService, 'get').and.returnValue(cartItemList);
-    spyOn(localStorageService, 'set');
     var item = {'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
-
-    cartService.reduceCartItem(item);
-
-    expect(localStorageService.get.calls.count()).toEqual(2);
-    expect(localStorageService.set.calls.count()).toEqual(2);
+    cartItemList[1].num = 4;
+    $httpBackend.expectPOST('/api/cartItems', {cartItem: item}).respond(200, cartItemList);
+    cartService.addCartItem(item, function (data) {
+      expect(data[1].num).toBe(4);
+    });
+    $httpBackend.flush();
   });
 
   it('should reduce cart item from cart item list', function () {
@@ -111,16 +85,6 @@ describe('Service: cartService', function () {
     var result = cartService.totalPrice(cartItemList);
 
     expect(result).toBe(42);
-  });
-
-  it('called local storage service set and get function 1 times when click pay ok button', function () {
-    spyOn(localStorageService, 'remove');
-    spyOn(localStorageService, 'set');
-
-    cartService.cleanCart();
-
-    expect(localStorageService.remove.calls.count()).toEqual(1);
-    expect(localStorageService.set.calls.count()).toEqual(1);
   });
 
 });
