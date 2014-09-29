@@ -41,7 +41,8 @@ describe('Service: categoryService', function () {
   });
 
   it('should return the category info by id', function () {
-    $httpBackend.expectGET('/api/categories').respond(200, categoryList);
+    var category = {id: 1, name: '饮料'};
+    $httpBackend.expectGET('/api/categories/1').respond(200, category);
     categoryService.getCategoryInfoById(1, function (data) {
       expect(data).toEqual({id: 1, name: '饮料'});
     });
