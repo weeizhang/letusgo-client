@@ -10,6 +10,13 @@ angular.module('letusgoApp')
         });
     }
 
+    function getCategoryById(id, callback) {
+      $http.get('/api/categories/' + id)
+        .success(function (data) {
+          callback(data);
+        });
+    }
+
     function addCategory(category, callback) {
       $http.post('/api/categories', {'category': category})
         .success(function (data) {
@@ -40,9 +47,8 @@ angular.module('letusgoApp')
     };
 
     this.getCategoryInfoById = function (id, callback) {
-      getCategories(function (data) {
-        var category = _.find(data, {'id': id});
-        callback(category);
+      getCategoryById(id, function (data) {
+        callback(data);
       });
     };
 
@@ -64,7 +70,7 @@ angular.module('letusgoApp')
 
     var isRemove = function (categoryInfo) {
       var productList = null;
-      ProductService.getAllProductInfo(function(data) {
+      ProductService.getAllProductInfo(function (data) {
         productList = data;
       });
       var result = true;
