@@ -5,8 +5,8 @@ angular.module('letusgoApp')
 
     $scope.$emit('to-parent-manage');
 
-    var barcode = $location.search().barcode;
-    ProductService.getProductInfoById(barcode, function(data) {
+    var id = $location.search().id;
+    ProductService.getProductInfoById(id, function(data) {
       $scope.updateproduct = data;
     });
 

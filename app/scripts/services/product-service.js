@@ -10,6 +10,13 @@ angular.module('letusgoApp')
         });
     }
 
+    function getItemById(id, callback) {
+      $http.get('/api/items/' + id)
+        .success(function (data) {
+          callback(data);
+        });
+    }
+
     function addItem(item, callback) {
       $http.post('/api/items', {'item': item})
         .success(function (data) {
@@ -39,10 +46,9 @@ angular.module('letusgoApp')
       });
     };
 
-    this.getProductInfoById = function (barcode, callback) {
-      getItems(function (data) {
-        var product = _.find(data, {'barcode': barcode});
-        callback(product);
+    this.getProductInfoById = function (id, callback) {
+      getItemById(id, function (data) {
+        callback(data);
       });
     };
 
