@@ -70,7 +70,7 @@ angular.module('letusgoApp')
 
     $scope.updateProductClick = function (productInfo) {
       $location.path('/product-update');
-      $location.search({'barcode': productInfo.barcode});
+      $location.search({'id': productInfo.id});
     };
 
     $scope.addProductClick = function () {
