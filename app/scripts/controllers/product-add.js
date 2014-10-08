@@ -4,8 +4,6 @@ angular.module('letusgoApp')
   .controller('ProductAddCtrl', function ($scope, $location, ProductService, CategoryService) {
 
     function addProduct(callback) {
-      var id = parseInt($scope.products[$scope.products.length - 1].barcode.substring(9));
-      $scope.addproduct.barcode = $scope.products[$scope.products.length - 1].barcode.substring(0, 9) + (id + 1);
       ProductService.addProductInfo($scope.addproduct, function (data) {
         callback(data);
       });
