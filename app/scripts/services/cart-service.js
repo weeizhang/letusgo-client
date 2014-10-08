@@ -18,6 +18,13 @@ angular.module('letusgoApp')
         });
     }
 
+    function toArray(cartItemList) {
+      var array = _.map(cartItemList, function (cartItem) {
+        return cartItem.item.price * cartItem.num;
+      });
+      return array;
+    }
+
     this.getCartItem = function (callback) {
       $http.get('/api/cartItems')
         .success(function (data) {
@@ -61,12 +68,7 @@ angular.module('letusgoApp')
     };
 
     this.totalPrice = function (cartItemList) {
-
-      var array = _.map(cartItemList, function (cartItem) {
-        return cartItem.item.price * cartItem.num;
-      });
-
-      var sum = _.reduce(array, function(sum, num) {
+      var sum = _.reduce(toArray(cartItemList), function(sum, num) {
         return sum + num;
       });
 
