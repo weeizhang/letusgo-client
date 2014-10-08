@@ -66,9 +66,8 @@ angular.module('letusgoApp')
         return cartItem.item.price * cartItem.num;
       });
 
-      var sum = 0;
-      _.forEach(array, function (item) {
-        sum += item;
+      var sum = _.reduce(array, function(sum, num) {
+        return sum + num;
       });
 
       return sum;
