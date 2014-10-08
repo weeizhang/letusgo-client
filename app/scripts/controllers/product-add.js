@@ -4,9 +4,9 @@ angular.module('letusgoApp')
   .controller('ProductAddCtrl', function ($scope, $location, ProductService, CategoryService) {
 
     function addProduct(callback) {
-      var id = +$scope.products[$scope.products.length - 1].barcode.substring(9);
+      var id = parseInt($scope.products[$scope.products.length - 1].barcode.substring(9));
       $scope.addproduct.barcode = $scope.products[$scope.products.length - 1].barcode.substring(0, 9) + (id + 1);
-      ProductService.addProductInfo($scope.addproduct, function(data) {
+      ProductService.addProductInfo($scope.addproduct, function (data) {
         callback(data);
       });
     }
@@ -16,18 +16,18 @@ angular.module('letusgoApp')
     $scope.addproduct = {};
     $scope.tip = '';
 
-    CategoryService.getAllCategoryInfo(function(data) {
+    CategoryService.getAllCategoryInfo(function (data) {
       $scope.categorys = data;
     });
 
-    ProductService.getAllProductInfo(function(data) {
+    ProductService.getAllProductInfo(function (data) {
       $scope.products = data;
     });
 
     $scope.addProductInfo = function () {
       var isEmpty = $scope.addproduct.name && $scope.addproduct.category && $scope.addproduct.price && $scope.addproduct.unit;
       if (isEmpty) {
-        addProduct(function(data) {
+        addProduct(function (data) {
           $scope.products = data;
           $location.path('/product');
         });
