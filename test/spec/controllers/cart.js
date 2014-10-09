@@ -45,9 +45,19 @@ describe('Controller: CartCtrl', function () {
   });
 
   it('should call categoryCartItem in cartService', function () {
+    var cartItemsGroup = [
+      [
+        {item: {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 1},
+        {item: {'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 3}
+      ],
+      [
+        {item: {'barcode': 'ITEM000003', 'name': '荔枝', 'unit': '斤', 'price': 15.00, 'category': '水果'}, num: 2}
+      ]
+    ];
     spyOn(cartService, 'categoryCartItem');
     createController(function () {
       expect(cartService.categoryCartItem).toHaveBeenCalled();
+      expect($scope.cartItemGroup).toEqual(cartItemsGroup)
     });
   });
 
@@ -55,6 +65,7 @@ describe('Controller: CartCtrl', function () {
     spyOn(cartService, 'totalPrice');
     createController(function () {
       expect(cartService.totalPrice).toHaveBeenCalled();
+      expect($scope.total).toEqual(42);
     });
   });
 
@@ -84,7 +95,7 @@ describe('Controller: CartCtrl', function () {
       spyOn(cartService, 'totalPrice');
       createController();
       var cartItem = {item: {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 1};
-      $scope.addCartItemClick(cartItem, function() {
+      $scope.addCartItemClick(cartItem, function () {
         expect(cartService.totalPrice).toHaveBeenCalled();
       });
     });
@@ -93,7 +104,7 @@ describe('Controller: CartCtrl', function () {
       spyOn($scope, '$emit');
       createController();
       var cartItem = {item: {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 1};
-      $scope.addCartItemClick(cartItem, function() {
+      $scope.addCartItemClick(cartItem, function () {
         expect($scope.$emit).toHaveBeenCalledWith('to-parent-changeamounts');
       });
     });
@@ -106,7 +117,7 @@ describe('Controller: CartCtrl', function () {
       spyOn(cartService, 'reduceCartItem');
       createController();
       var cartItem = {item: {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 1};
-      $scope.reduceCartItemClick(cartItem, function() {
+      $scope.reduceCartItemClick(cartItem, function () {
         expect(cartService.reduceCartItem).toHaveBeenCalled();
       });
     });
@@ -116,7 +127,7 @@ describe('Controller: CartCtrl', function () {
       spyOn(cartService, 'reduceCartItem');
       createController();
       var cartItem = {item: {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 1};
-      $scope.reduceCartItemClick(cartItem, function() {
+      $scope.reduceCartItemClick(cartItem, function () {
         expect(cartService.categoryCartItem).toHaveBeenCalled();
       });
     });
@@ -127,7 +138,7 @@ describe('Controller: CartCtrl', function () {
       spyOn(cartService, 'totalPrice');
       createController();
       var cartItem = {item: {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 1};
-      $scope.reduceCartItemClick(cartItem, function() {
+      $scope.reduceCartItemClick(cartItem, function () {
         expect(cartService.totalPrice).toHaveBeenCalled();
       });
     });
@@ -136,7 +147,7 @@ describe('Controller: CartCtrl', function () {
       spyOn($scope, '$emit');
       createController();
       var cartItem = {item: {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'}, num: 1};
-      $scope.reduceCartItemClick(cartItem, function() {
+      $scope.reduceCartItemClick(cartItem, function () {
         expect($scope.$emit).toHaveBeenCalledWith('to-parent-changeamounts');
       });
     });
@@ -147,16 +158,43 @@ describe('Controller: CartCtrl', function () {
 
     it('should return true when have cart items', function () {
       spyOn(cartService, 'getCartItem').and.returnValue(cartItems);
-      createController(function() {
+      createController(function () {
         expect($scope.isShow()).toBe(true);
         expect(cartService.getCartItem).toHaveBeenCalled();
       });
     });
 
-    it('should return false when have cart items', function () {
+    it('should return false when have not cart items', function () {
       var cartItemList = [];
       spyOn(cartService, 'getCartItem').and.returnValue(cartItemList);
-      createController(function(){
+      createController(function () {
+        expect($scope.isShow()).toBe(false);
+        expect(cartService.getCartItem).toHaveBeenCalled();
+      });
+    });
+
+    it('should return false when have not cart items', function () {
+      var cartItemList = null;
+      spyOn(cartService, 'getCartItem').and.returnValue(cartItemList);
+      createController(function () {
+        expect($scope.isShow()).toBe(false);
+        expect(cartService.getCartItem).toHaveBeenCalled();
+      });
+    });
+
+    it('should return false when have not cart items reduce', function () {
+      var cartItemList = [];
+      spyOn(cartService, 'reduceCartItem').and.returnValue(cartItemList);
+      createController(function () {
+        expect($scope.isShow()).toBe(false);
+        expect(cartService.getCartItem).toHaveBeenCalled();
+      });
+    });
+
+    it('should return false when have not cart items reduce', function () {
+      var cartItemList = null;
+      spyOn(cartService, 'reduceCartItem').and.returnValue(cartItemList);
+      createController(function () {
         expect($scope.isShow()).toBe(false);
         expect(cartService.getCartItem).toHaveBeenCalled();
       });
