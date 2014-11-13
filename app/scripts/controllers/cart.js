@@ -1,35 +1,32 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .controller('CartCtrl', function ($scope, CartService) {
+  .controller('CartCtrl', function ($scope, CartService, localStorageService) {
 
     function emit(name) {
       $scope.$emit(name);
     }
 
-    function updateData(cartItemList) {
+    function updateData() {
+      var cartItemList = localStorageService.get('cartItems')
       $scope.cartItemGroup = CartService.categoryCartItem(cartItemList);
       $scope.total = CartService.totalPrice(cartItemList);
+      $scope.isShow = !(cartItemList === null || cartItemList.length === 0);
     }
 
     emit('to-parent-incart');
 
-    CartService.getCartItem(function (data) {
-      updateData(data);
-      $scope.isShow = !(data === null || data.length === 0);
-    });
+    updateData();
 
     $scope.addCartItemClick = function (cartItem) {
       CartService.addCartItem(cartItem.item);
       emit('to-parent-changeamounts');
-      updateData(data);
+      updateData();
     };
 
     $scope.reduceCartItemClick = function (cartItem) {
-      CartService.reduceCartItem(cartItem.item, function (data) {
-        emit('to-parent-changeamounts');
-        updateData(data);
-        $scope.isShow = !(data === null || data.length === 0);
-      });
+      CartService.reduceCartItem(cartItem.item);
+      emit('to-parent-changeamounts');
+      updateData();
     };
   });
