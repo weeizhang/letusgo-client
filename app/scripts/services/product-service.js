@@ -4,21 +4,21 @@ angular.module('letusgoApp')
   .service('ProductService', function ($http) {
 
     function getItems(callback) {
-      $http.get('/api/items')
+      $http.get('/items')
         .success(function (data) {
           callback(data);
         });
     }
 
     function getItemById(id, callback) {
-      $http.get('/api/items/' + id)
+      $http.get('/items/' + id)
         .success(function (data) {
           callback(data);
         });
     }
 
     function addItem(item, callback) {
-      $http.post('/api/items', {'item': item})
+      $http.post('/items', {'item': item})
         .success(function (data) {
           callback(data);
         });
@@ -26,7 +26,7 @@ angular.module('letusgoApp')
 
     function updateItem(item, callback) {
       var id = item.id;
-      $http.put('/api/items/'+id , {'item': item})
+      $http.put('/items/'+id , {'item': item})
         .success(function (data) {
           callback(data);
         });
@@ -34,7 +34,7 @@ angular.module('letusgoApp')
 
     function removeItem(item, callback) {
       var id = item.id;
-      $http.delete('/api/items/'+id)
+      $http.delete('/items/'+id)
         .success(function (data) {
           callback(data);
         });
