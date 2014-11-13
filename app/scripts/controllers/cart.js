@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('letusgoApp')
-  .controller('CartCtrl', function ($scope, CartService, localStorageService) {
+  .controller('CartCtrl', function ($scope, CartService) {
 
     function emit(name) {
       $scope.$emit(name);
     }
 
     function updateData() {
-      var cartItemList = localStorageService.get('cartItems')
+      var cartItemList = CartService.getCartItems();
       $scope.cartItemGroup = CartService.categoryCartItem(cartItemList);
       $scope.total = CartService.totalPrice(cartItemList);
       $scope.isShow = !(cartItemList === null || cartItemList.length === 0);
