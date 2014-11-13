@@ -4,21 +4,21 @@ angular.module('letusgoApp')
   .service('CategoryService', function ($http, ProductService) {
 
     function getCategories(callback) {
-      $http.get('/api/categories')
+      $http.get('/categories')
         .success(function (data) {
           callback(data);
         });
     }
 
     function getCategoryById(id, callback) {
-      $http.get('/api/categories/' + id)
+      $http.get('/categories/' + id)
         .success(function (data) {
           callback(data);
         });
     }
 
     function addCategory(category, callback) {
-      $http.post('/api/categories', {'category': category})
+      $http.post('/categories', {'category': category})
         .success(function (data) {
           callback(data);
         });
@@ -26,7 +26,7 @@ angular.module('letusgoApp')
 
     function updateCategory(category, callback) {
       var id = category.id;
-      $http.put('/api/categories/' + id, {'category': category})
+      $http.put('/categories/' + id, {'category': category})
         .success(function (data) {
           callback(data);
         });
@@ -34,7 +34,7 @@ angular.module('letusgoApp')
 
     function removeCategory(category, callback) {
       var id = category.id;
-      $http.delete('/api/categories/' + id)
+      $http.delete('/categories/' + id)
         .success(function (data) {
           callback(data);
         });
