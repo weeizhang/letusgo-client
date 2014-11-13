@@ -59,7 +59,7 @@ describe('Service: categoryService', function () {
     $httpBackend.flush();
   });
 
-  it('should remove category info into category list', function () {
+  it('should remove category info from category list', function () {
     $httpBackend.expectGET('/api/items').respond(200, items);
     var categoryInfo = {id: 4, name: '食品'};
     categoryList.splice(3, 1);
