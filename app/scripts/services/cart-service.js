@@ -46,10 +46,6 @@ angular.module('letusgoApp')
       return localStorageService.get('amounts');
     };
 
-    this.setAmount = function (amount) {
-      localStorageService.set('amounts', amount);
-    };
-
     this.categoryCartItem = function (cartItemList) {
       var cartItemGroup = _.map(_.groupBy(cartItemList, function (cartItem) {
         return cartItem.item.category;
