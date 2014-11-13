@@ -22,27 +22,18 @@ angular.module('letusgoApp')
       setData(cartItemList, parseInt(localStorageService.get('amounts') + 1));
     }
 
-    function reduceCartItem(item, callback) {
-      var id = item.id;
-      $http.delete('/api/cartItems/'+id)
-        .success(function (data) {
-          callback(data);
-        });
-    }
+    function reduceCartItem(item) {
+      var cartItemList = localStorageService.get('cartItems');
 
-    function toArray(cartItemList) {
-      var array = _.map(cartItemList, function (cartItem) {
-        return cartItem.item.price * cartItem.num;
-      });
-      return array;
-    }
+      var index = _.findIndex(cartItemList, {'item': item});
+      cartItemList[index].num--;
 
-    this.getCartItem = function (callback) {
-      $http.get('/api/cartItems')
-        .success(function (data) {
-          callback(data);
-        });
-    };
+      if (cartItemList[index].num <= 0) {
+        _.remove(cartItemList, cartItemList[index]);
+      }
+
+      setData(cartItemList, parseInt(localStorageService.get('amounts') - 1));
+    }
 
     this.getAmount = function () {
       if (localStorageService.get('amounts') === null) {
@@ -66,12 +57,8 @@ angular.module('letusgoApp')
       addCartItem(item);
     };
 
-    this.reduceCartItem = function (curitem, callback) {
-      reduceCartItem(curitem, function(data) {
-        var amounts = parseInt(localStorageService.get('amounts')) - 1;
-        localStorageService.set('amounts', amounts);
-        callback(data);
-      });
+    this.reduceCartItem = function (item) {
+      reduceCartItem(item);
     };
 
     this.totalPrice = function (cartItemList) {
