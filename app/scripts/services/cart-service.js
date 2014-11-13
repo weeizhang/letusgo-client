@@ -19,7 +19,7 @@ angular.module('letusgoApp')
         cartItemList.push(cartItem);
       }
 
-      setData(cartItemList, parseInt(localStorageService.get('amounts') + 1));
+      setData(cartItemList, parseInt(localStorageService.get('amounts')) + 1);
     }
 
     function reduceCartItem(item) {
@@ -32,7 +32,7 @@ angular.module('letusgoApp')
         _.remove(cartItemList, cartItemList[index]);
       }
 
-      setData(cartItemList, parseInt(localStorageService.get('amounts') - 1));
+      setData(cartItemList, parseInt(localStorageService.get('amounts')) - 1);
     }
 
     this.getCartItems = function () {
@@ -60,6 +60,13 @@ angular.module('letusgoApp')
     this.reduceCartItem = function (item) {
       reduceCartItem(item);
     };
+
+    function toArray(cartItemList) {
+      var array = _.map(cartItemList, function (cartItem) {
+        return cartItem.item.price * cartItem.num;
+      });
+      return array;
+    }
 
     this.totalPrice = function (cartItemList) {
       var sum = _.reduce(toArray(cartItemList), function(sum, num) {
