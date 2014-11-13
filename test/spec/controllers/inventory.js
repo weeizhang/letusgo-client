@@ -22,21 +22,17 @@ describe('Controller: InventoryCtrl', function () {
       };
     });
 
-    var cartItem1 = {"item":{"id":1,"barcode":"ITEM000000","name":"可口可乐","unit":"瓶","price":3,"category":"饮料"},"num":2};
-    var cartItem2 = {"item":{"id":2,"barcode":"ITEM000001","name":"雪碧","unit":"瓶","price":3,"category":"饮料"},"num":1};
-    var cartItem3 = {"item":{"id":3,"barcode":"ITEM000002","name":"苹果","unit":"斤","price":5.5,"category":"水果"},"num":1};
+    var cartItem1 = {"item": {"id": 1, "barcode": "ITEM000000", "name": "可口可乐", "unit": "瓶", "price": 3, "category": "饮料"}, "num": 2};
+    var cartItem2 = {"item": {"id": 2, "barcode": "ITEM000001", "name": "雪碧", "unit": "瓶", "price": 3, "category": "饮料"}, "num": 1};
+    var cartItem3 = {"item": {"id": 3, "barcode": "ITEM000002", "name": "苹果", "unit": "斤", "price": 5.5, "category": "水果"}, "num": 1};
     cartItems = [cartItem1, cartItem2, cartItem3];
 
   });
 
   it('should call getCartItem in cartService and return to cartItemList', function () {
-    spyOn(cartService, 'getCartItem').and.callFake(function (callback) {
-      callback(cartItems);
-    });
+    spyOn(cartService, 'getCartItems').and.returnValue(cartItems);
     createController();
-    cartService.getCartItem(function (cartItems) {
-      expect($scope.cartItemList).toEqual(cartItems);
-    });
+    expect($scope.cartItemList).toEqual(cartService.getCartItems());
   });
 
   it('should call totalPrice in cartService and return to totalPrice', function () {
@@ -55,25 +51,12 @@ describe('Controller: InventoryCtrl', function () {
   });
 
   it('should pay success', function () {
-    spyOn(cartService, 'cleanCart').and.callFake(function (callback) {
-      callback('OK');
-    });
+    spyOn(cartService, 'cleanCart');
     spyOn($scope, '$emit');
     spyOn(window, 'alert');
     createController();
     $scope.okPayClick();
     expect(window.alert).toHaveBeenCalled();
-  });
-
-  it('should pay failure', function () {
-    spyOn(cartService, 'cleanCart').and.callFake(function (callback) {
-      callback('ERR');
-    });
-    spyOn($scope, '$emit');
-    spyOn(window, 'alert');
-    createController();
-    $scope.okPayClick();
-    expect(window.alert).not.toHaveBeenCalled();
   });
 
   it('should emit to parent controller when click pay button', function () {
