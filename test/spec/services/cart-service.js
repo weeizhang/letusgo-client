@@ -23,11 +23,8 @@ describe('Service: cartService', function () {
   });
 
   it('should return the cartItemList', function () {
-    $httpBackend.expectGET('/api/cartItems').respond(200, cartItemList);
-    cartService.getCartItem(function (data) {
-      expect(data.length).toBe(3);
-    });
-    $httpBackend.flush();
+    spyOn(localStorageService, 'get').and.returnValue(cartItemList);
+    expect(cartService.getCartItems().length).toBe(3);
   });
 
   it('should return the amount when amount is not undefined', function () {
@@ -43,35 +40,31 @@ describe('Service: cartService', function () {
     expect(localStorageService.set).toHaveBeenCalled();
   });
 
-  it('should called the set function when set amount', function () {
-    spyOn(localStorageService, 'set');
-    cartService.setAmount(7);
-    expect(localStorageService.set).toHaveBeenCalled();
-  });
-
   it('should category the cart item list', function () {
     var result = cartService.categoryCartItem(cartItemList);
     expect(result.length).toBe(2);
   });
 
-  it('should add cart item into cart item list', function () {
-    var item = {'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
-    cartItemList[1].num = 4;
-    $httpBackend.expectPOST('/api/cartItems', {cartItem: item}).respond(200, cartItemList);
-    cartService.addCartItem(item, function (data) {
-      expect(data[1].num).toBe(4);
-    });
-    $httpBackend.flush();
+  it('called local storage service set and get function 2 times when add cart item', function () {
+    spyOn(localStorageService, 'get').and.returnValue(cartItemList);
+    spyOn(localStorageService, 'set');
+    var item = {'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
+
+    cartService.addCartItem(item);
+
+    expect(localStorageService.get.calls.count()).toEqual(2);
+    expect(localStorageService.set.calls.count()).toEqual(2);
   });
 
-  it('should reduce cart item from cart item list', function () {
-    var item = {id:2, 'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
-    cartItemList[1].num = 2;
-    $httpBackend.expectDELETE('/api/cartItems/2').respond(200, cartItemList);
-    cartService.reduceCartItem(item, function (data) {
-      expect(data[1].num).toBe(2);
-    });
-    $httpBackend.flush();
+  it('called local storage service set and get function 2 times when reduce cart item', function () {
+    spyOn(localStorageService, 'get').and.returnValue(cartItemList);
+    spyOn(localStorageService, 'set');
+    var item = {'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
+
+    cartService.reduceCartItem(item);
+
+    expect(localStorageService.get.calls.count()).toEqual(2);
+    expect(localStorageService.set.calls.count()).toEqual(2);
   });
 
   it('should return the total price', function () {

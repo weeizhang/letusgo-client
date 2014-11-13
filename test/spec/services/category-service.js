@@ -33,7 +33,7 @@ describe('Service: categoryService', function () {
   });
 
   it('should return the categoryList', function () {
-    $httpBackend.expectGET('/api/categories').respond(200, categoryList);
+    $httpBackend.expectGET('/categories').respond(200, categoryList);
     categoryService.getAllCategoryInfo(function (data) {
       expect(data.length).toBe(4);
     });
@@ -42,7 +42,7 @@ describe('Service: categoryService', function () {
 
   it('should return the category info by id', function () {
     var category = {id: 1, name: '饮料'};
-    $httpBackend.expectGET('/api/categories/1').respond(200, category);
+    $httpBackend.expectGET('/categories/1').respond(200, category);
     categoryService.getCategoryInfoById(1, function (data) {
       expect(data).toEqual({id: 1, name: '饮料'});
     });
@@ -52,7 +52,7 @@ describe('Service: categoryService', function () {
   it('should add category info into category list', function () {
     var categoryInfo = {id: 5, name: '文具'};
     categoryList.push(categoryInfo);
-    $httpBackend.expectPOST('/api/categories', {category: categoryInfo}).respond(200, categoryList);
+    $httpBackend.expectPOST('/categories', {category: categoryInfo}).respond(200, categoryList);
     categoryService.addCategoryInfo(categoryInfo, function (data) {
       expect(data.length).toBe(5);
     });
@@ -60,10 +60,10 @@ describe('Service: categoryService', function () {
   });
 
   it('should remove category info from category list', function () {
-    $httpBackend.expectGET('/api/items').respond(200, items);
+    $httpBackend.expectGET('/items').respond(200, items);
     var categoryInfo = {id: 4, name: '食品'};
     categoryList.splice(3, 1);
-    $httpBackend.expectDELETE('/api/categories/4').respond(200, true);
+    $httpBackend.expectDELETE('/categories/4').respond(200, true);
     categoryService.removeCategoryInfo(categoryInfo, function (data) {
       expect(data).toBe(true);
     });
@@ -74,7 +74,7 @@ describe('Service: categoryService', function () {
     var categoryInfo = {id: 4, name: '文具'};
     categoryList.splice(3,1);
     categoryList.push(categoryInfo);
-    $httpBackend.expectPUT('/api/categories/4', {category: categoryInfo}).respond(200, categoryList);
+    $httpBackend.expectPUT('/categories/4', {category: categoryInfo}).respond(200, categoryList);
     categoryService.updateCategoryInfo(categoryInfo, function (data) {
       expect(data[3]).toEqual(categoryInfo);
     });
