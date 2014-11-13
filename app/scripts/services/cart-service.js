@@ -35,6 +35,10 @@ angular.module('letusgoApp')
       setData(cartItemList, parseInt(localStorageService.get('amounts') - 1));
     }
 
+    this.getCartItems = function () {
+      return localStorageService.get('cartItems') || [];
+    }
+
     this.getAmount = function () {
       if (localStorageService.get('amounts') === null) {
         localStorageService.set('amounts', 0);
