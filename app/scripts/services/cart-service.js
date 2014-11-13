@@ -3,11 +3,23 @@
 angular.module('letusgoApp')
   .service('CartService', function (localStorageService, $http) {
 
-    function addCartItem(item, callback) {
-      $http.post('/api/cartItems', {'cartItem': item})
-        .success(function (data) {
-          callback(data);
-        });
+    function setData(cartItems, amounts) {
+      localStorageService.set('cartItems', cartItems);
+      localStorageService.set('amounts', amounts);
+    }
+
+    function addCartItem(item) {
+      var cartItemList = localStorageService.get('cartItems') || [];
+
+      if (_.any(cartItemList, {'item': item})) {
+        var index = _.findIndex(cartItemList, {'item': item});
+        cartItemList[index].num++;
+      } else {
+        var cartItem = {'item': item, 'num': 1};
+        cartItemList.push(cartItem);
+      }
+
+      setData(cartItemList, parseInt(localStorageService.get('amounts') + 1));
     }
 
     function reduceCartItem(item, callback) {
@@ -50,13 +62,8 @@ angular.module('letusgoApp')
       return cartItemGroup;
     };
 
-    this.addCartItem = function (curitem, callback) {
-      addCartItem(curitem, function (data) {
-        var amounts = parseInt(localStorageService.get('amounts')) + 1;
-        localStorageService.set('amounts', amounts);
-        callback(data);
-      });
-
+    this.addCartItem = function (item) {
+      addCartItem(item);
     };
 
     this.reduceCartItem = function (curitem, callback) {
