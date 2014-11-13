@@ -69,11 +69,7 @@ angular.module('letusgoApp')
       return sum;
     };
 
-    this.cleanCart = function (callback) {
-      localStorageService.set('amounts', 0);
-      $http.post('/api/payment')
-        .success(function(data) {
-          callback(data);
-        })
+    this.cleanCart = function () {
+      setData([], 0)
     };
   });
