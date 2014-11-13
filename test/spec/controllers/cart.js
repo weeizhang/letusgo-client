@@ -37,11 +37,9 @@ describe('Controller: CartCtrl', function () {
   });
 
   it('should call getCartItem in cartService', function () {
-    spyOn(cartService, 'getCartItem').and.callFake(function (callback) {
-      callback(cartItems);
-    });
+    spyOn(cartService, 'getCartItems').and.returnValue(cartItems);
     createController();
-    expect(cartService.getCartItem).toHaveBeenCalled();
+    expect(cartService.getCartItems).toHaveBeenCalled();
   });
 
   it('should call categoryCartItem in cartService', function () {
@@ -157,28 +155,28 @@ describe('Controller: CartCtrl', function () {
   describe('which button display', function () {
 
     it('should return true when have cart items', function () {
-      spyOn(cartService, 'getCartItem').and.returnValue(cartItems);
+      spyOn(cartService, 'getCartItems').and.returnValue(cartItems);
       createController(function () {
         expect($scope.isShow()).toBe(true);
-        expect(cartService.getCartItem).toHaveBeenCalled();
+        expect(cartService.getCartItems).toHaveBeenCalled();
       });
     });
 
     it('should return false when have not cart items', function () {
       var cartItemList = [];
-      spyOn(cartService, 'getCartItem').and.returnValue(cartItemList);
+      spyOn(cartService, 'getCartItems').and.returnValue(cartItemList);
       createController(function () {
         expect($scope.isShow()).toBe(false);
-        expect(cartService.getCartItem).toHaveBeenCalled();
+        expect(cartService.getCartItems).toHaveBeenCalled();
       });
     });
 
     it('should return false when have not cart items', function () {
       var cartItemList = null;
-      spyOn(cartService, 'getCartItem').and.returnValue(cartItemList);
+      spyOn(cartService, 'getCartItems').and.returnValue(cartItemList);
       createController(function () {
         expect($scope.isShow()).toBe(false);
-        expect(cartService.getCartItem).toHaveBeenCalled();
+        expect(cartService.getCartItems).toHaveBeenCalled();
       });
     });
 
