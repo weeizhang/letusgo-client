@@ -21,7 +21,7 @@ describe('Service: ProductService', function () {
   });
 
   it('should make a GET request', function () {
-    $httpBackend.expectGET('/api/items').respond(200, productList);
+    $httpBackend.expectGET('/items').respond(200, productList);
     productService.loadAllItems(function (data){
       expect(data.length).toBe(3);
     });
@@ -29,7 +29,7 @@ describe('Service: ProductService', function () {
   });
 
   it('should return productList', function () {
-    $httpBackend.expectGET('/api/items').respond(200, productList);
+    $httpBackend.expectGET('/items').respond(200, productList);
     productService.getAllProductInfo(function (data) {
       expect(data.length).toBe(3);
     });
@@ -38,7 +38,7 @@ describe('Service: ProductService', function () {
 
   it('should return the product info by id', function () {
     var product = {'id':1, 'barcode': 'ITEM000000', 'name': '可口可乐', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
-    $httpBackend.expectGET('/api/items/1').respond(200, product);
+    $httpBackend.expectGET('/items/1').respond(200, product);
     productService.getProductInfoById(1, function (data) {
       expect(data).toEqual(product);
     });
@@ -48,7 +48,7 @@ describe('Service: ProductService', function () {
   it('should add product info into product list', function () {
     var product = {'barcode': 'ITEM000003', 'name': '荔枝', 'unit': '斤', 'price': 15.00, 'category': '水果'};
     productList.push(product);
-    $httpBackend.expectPOST('/api/items', {item: product}).respond(200, productList);
+    $httpBackend.expectPOST('/items', {item: product}).respond(200, productList);
     productService.addProductInfo(product, function (data) {
       expect(data.length).toBe(4);
     });
@@ -58,7 +58,7 @@ describe('Service: ProductService', function () {
   it('should remove product info into product list', function () {
     var product = {id: 1, 'barcode': 'ITEM000001', 'name': '雪碧', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
     productList.splice(0, 1);
-    $httpBackend.expectDELETE('/api/items/1').respond(200, productList);
+    $httpBackend.expectDELETE('/items/1').respond(200, productList);
     productService.removeProductInfo(product, function (data) {
       expect(data.length).toBe(2);
     });
@@ -68,7 +68,7 @@ describe('Service: ProductService', function () {
   it('should update product info into product list', function () {
     var product = {id:1, 'barcode': 'ITEM000001', 'name': '果粒橙', 'unit': '瓶', 'price': 3.00, 'category': '饮料'};
     productList[0] = product;
-    $httpBackend.expectPUT('/api/items/1', {item: product}).respond(200, productList);
+    $httpBackend.expectPUT('/items/1', {item: product}).respond(200, productList);
     productService.updateProductInfo(product, function (data) {
       expect(data[0]).toEqual(product);
     });
