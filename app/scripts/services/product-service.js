@@ -40,6 +40,13 @@ angular.module('letusgoApp')
         });
     }
 
+    this.loadAllItems = function (callback) {
+      $http.get('/items')
+        .success(function (data) {
+          callback(data);
+        });
+    };
+
     this.getAllProductInfo = function (callback) {
       getItems(function (data) {
         callback(data);
