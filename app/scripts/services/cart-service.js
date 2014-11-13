@@ -10,7 +10,7 @@ angular.module('letusgoApp')
 
     function addCartItem(item) {
       var cartItemList = localStorageService.get('cartItems') || [];
-
+      item = angular.copy(item);
       if (_.any(cartItemList, {'item': item})) {
         var index = _.findIndex(cartItemList, {'item': item});
         cartItemList[index].num++;
