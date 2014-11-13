@@ -20,6 +20,14 @@ describe('Service: ProductService', function () {
     $httpBackend.verifyNoOutstandingExpectation();
   });
 
+  it('should make a GET request', function () {
+    $httpBackend.expectGET('/api/items').respond(200, productList);
+    productService.loadAllItems(function (data){
+      expect(data.length).toBe(3);
+    });
+    $httpBackend.flush();
+  });
+
   it('should return productList', function () {
     $httpBackend.expectGET('/api/items').respond(200, productList);
     productService.getAllProductInfo(function (data) {

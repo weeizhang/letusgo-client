@@ -2,7 +2,7 @@
 
 describe('Controller: ListCtrl', function () {
 
-  var $scope, itemService, cartService, createController, items;
+  var $scope, productService, cartService, createController, items;
 
   beforeEach(function () {
     module('letusgoApp');
@@ -10,7 +10,7 @@ describe('Controller: ListCtrl', function () {
     inject(function ($injector) {
 
       $scope = $injector.get('$rootScope').$new();
-      itemService = $injector.get('ItemService');
+      productService = $injector.get('ProductService');
       cartService = $injector.get('CartService');
 
       var $controller = $injector.get('$controller');
@@ -18,7 +18,7 @@ describe('Controller: ListCtrl', function () {
       createController = function () {
         return $controller('ListCtrl', {
           $scope: $scope,
-          ItemService: itemService,
+          ProductService: productService,
           CartService: cartService
         });
       };
@@ -41,11 +41,11 @@ describe('Controller: ListCtrl', function () {
   });
 
   it('should return all items to items', function () {
-    spyOn(itemService, 'loadAllItems').and.callFake(function (callback) {
+    spyOn(productService, 'loadAllItems').and.callFake(function (callback) {
       callback(items);
     });
     createController();
-    itemService.loadAllItems(function (data) {
+    productService.loadAllItems(function (data) {
       expect($scope.items).toEqual(data);
     });
   });
